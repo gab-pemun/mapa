@@ -166,8 +166,10 @@ const App = () => {
   switch (location.pathname) {
     case '/mapa/kingcongue':
       showNorth = true;
+      showSouth = false;
       break;
     case '/mapa/deixaosgarotosbrincar':
+      showNorth = false;
       showSouth = true;
       break;
     case '/mapa/peixesibito':
@@ -175,6 +177,8 @@ const App = () => {
       showSouth = true;
       break;
     default:
+      showNorth = false;
+      showSouth = false;
       break;
   }
 
