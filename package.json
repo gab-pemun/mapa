@@ -1,7 +1,7 @@
 {
-  "name": "mapa-gabinete",
+  "name": "mapa",
   "version": "0.1.0",
-  "homepage": "https://lucca-aldf.github.io/mapa",
+  "homepage": "https://gab-pemun.github.io/mapa",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
