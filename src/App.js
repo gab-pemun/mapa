@@ -164,15 +164,15 @@ const App = () => {
   let showSouth = false;
 
   switch (location.pathname) {
-    case '/mapa/kingcongue':
+    case '/kingcongue':
       showNorth = true;
       showSouth = false;
       break;
-    case '/mapa/deixaosgarotosbrincar':
+    case '/deixaosgarotosbrincar':
       showNorth = false;
       showSouth = true;
       break;
-    case '/mapa/peixesibito':
+    case '/peixesibito':
       showNorth = true;
       showSouth = true;
       break;
