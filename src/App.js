@@ -275,7 +275,17 @@ const App = () => {
           minZoom={6}
         />
         <ZoomListener />
-        {markers.length > 0 && markers.map((item, index) => (
+        {markers.length > 0 && markers
+        .filter(item => {
+          if ((item.Responsabilidade === "norte" || item.Responsabilidade === "vcong")) {
+            return item.Secreto === "NAO" || (item.Secreto === "SIM" && showNorth);
+          }
+          if ((item.Responsabilidade === "sul" || item.Responsabilidade === "eua")) {
+            return item.Secreto === "NAO" || (item.Secreto === "SIM" && showSouth);
+          }
+          return true;
+        })
+        .map((item, index) => (
           <Marker
             key={index}
             position={coordinates(item.Coordenadas, boundaryCoordinates[0], boundaryCoordinates[1])}
