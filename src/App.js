@@ -281,6 +281,9 @@ const App = () => {
         <ZoomListener />
         {markers.length > 0 && markers
         .filter(item => {
+          if ((item.Responsabilidade === "neutro")) {
+            return true;
+          }
           if ((item.Responsabilidade === "norte" || item.Responsabilidade === "vcong")) {
             return item.Secreto === "NAO" || (item.Secreto === "SIM" && showNorth);
           }
