@@ -17,6 +17,7 @@ const RouteLogger = () => {
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <HashRouter basename={process.env.PUBLIC_URL}>
+      <RouteLogger />
       <Routes>
         <Route path="/#/kingcongue" element={<App showNorth={true} showSouth={false} />} />
         <Route path="/#/deixaosgarotosbrincar" element={<App showNorth={false} showSouth={true} />} />
