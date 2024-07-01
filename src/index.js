@@ -1,9 +1,19 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter as HashRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as HashRouter, Route, Routes, useLocation } from 'react-router-dom';
 import App from './App';
 
-// Use createRoot instead of ReactDOM.render
+const RouteLogger = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log('Current path:', location.pathname);
+  }, [location]);
+
+  return null;
+};
+
+
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <HashRouter basename={process.env.PUBLIC_URL}>
