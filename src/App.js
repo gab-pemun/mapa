@@ -88,35 +88,54 @@ const getCoordinatesFromId = (id, topLeft, bottomRight) => {
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   
-  // Extract components from the ID
-  const rowChar = id.charAt(0);
-  const colIndex = parseInt(id.slice(1, id.indexOf('-')), 10);
-  const subBoxRow = parseInt(id.charAt(id.indexOf('-') + 1), 10);
-  const subBoxCol = parseInt(id.charAt(id.indexOf('-') + 2), 10);
+  if (id.includes('-')) {
+    const rowChar = id.charAt(0);
+    const colIndex = parseInt(id.slice(1, id.indexOf('-')), 10);
+    const subBoxRow = parseInt(id.charAt(id.indexOf('-') + 1), 10);
+    const subBoxCol = parseInt(id.charAt(id.indexOf('-') + 2), 10);
 
-  // Convert rowChar back to its corresponding index
-  const rowIndex = numRows - alphabet.indexOf(rowChar) - 1;
+    const rowIndex = numRows - alphabet.indexOf(rowChar) - 1;
 
-  // Calculate the exact coordinates
-  const boxTopLeft = [
-    topLeft[0] + rowIndex + ((qttSquares - subBoxRow - 1) / qttSquares),
-    topLeft[1] + colIndex + (subBoxCol / qttSquares)
-  ];
-  const boxBottomRight = [
-    topLeft[0] + rowIndex + ((qttSquares - subBoxRow) / qttSquares),
-    topLeft[1] + colIndex + ((subBoxCol + 1) / qttSquares)
-  ];
+    const boxTopLeft = [
+      topLeft[0] + rowIndex + ((qttSquares - subBoxRow - 1) / qttSquares),
+      topLeft[1] + colIndex + (subBoxCol / qttSquares)
+    ];
+    const boxBottomRight = [
+      topLeft[0] + rowIndex + ((qttSquares - subBoxRow) / qttSquares),
+      topLeft[1] + colIndex + ((subBoxCol + 1) / qttSquares)
+    ];
 
-  // Calculate the center coordinates   
-  const center = [
-    (boxTopLeft[0] + boxBottomRight[0]) / 2,
-    (boxTopLeft[1] + boxBottomRight[1]) / 2
-  ];
+    const center = [
+      (boxTopLeft[0] + boxBottomRight[0]) / 2,
+      (boxTopLeft[1] + boxBottomRight[1]) / 2
+    ];
 
-  return center;
+    return center;
+  } else {
+    const rowChar = id.charAt(0);
+    const colIndex = parseInt(id.slice(1), 10);
+
+    const rowIndex = numRows - alphabet.indexOf(rowChar) - 1;
+
+    const boxTopLeft = [
+      topLeft[0] + rowIndex,
+      topLeft[1] + colIndex
+    ];
+    const boxBottomRight = [
+      topLeft[0] + rowIndex + 1,
+      topLeft[1] + colIndex + 1
+    ];
+
+    const center = [
+      (boxTopLeft[0] + boxBottomRight[0]) / 2,
+      (boxTopLeft[1] + boxBottomRight[1]) / 2
+    ];
+
+    return center;
+  }
 };
 
-const App = () => {
+const App = ({ showNorth, showSouth }) => {
   const [tileProvider, setTileProvider] = useState({
     name: 'Topográfico',
     tiles: 'https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}',
@@ -159,28 +178,6 @@ const App = () => {
 
   const [markers, setMarkers] = useState([]);
   const location = useLocation();
-
-  let showNorth = false;
-  let showSouth = false;
-
-  switch (location.pathname) {
-    case '/kingcongue':
-      showNorth = true;
-      showSouth = false;
-      break;
-    case '/deixaosgarotosbrincar':
-      showNorth = false;
-      showSouth = true;
-      break;
-    case '/peixesibito':
-      showNorth = true;
-      showSouth = true;
-      break;
-    default:
-      showNorth = false;
-      showSouth = false;
-      break;
-  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -281,14 +278,14 @@ const App = () => {
         <ZoomListener />
         {markers.length > 0 && markers
         .filter(item => {
-          if ((item.Responsabilidade === "neutro")) {
+          if ((item.Responsabilidade === "Neutro")) {
             return true;
           }
-          if ((item.Responsabilidade === "norte" || item.Responsabilidade === "vcong")) {
-            return item.Secreto === "NAO" || (item.Secreto === "SIM" && showNorth);
+          if ((item.Responsabilidade === "Norte" || item.Responsabilidade === "Vietcongue")) {
+            return item.Secreto === "SECRETO" || (item.Secreto === "LIVRE" && showNorth);
           }
-          if ((item.Responsabilidade === "sul" || item.Responsabilidade === "eua")) {
-            return item.Secreto === "NAO" || (item.Secreto === "SIM" && showSouth);
+          if ((item.Responsabilidade === "Sul" || item.Responsabilidade === "EUA")) {
+            return item.Secreto === "SECRETO" || (item.Secreto === "LIVRE" && showSouth);
           }
           return true;
         })
