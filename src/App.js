@@ -136,6 +136,8 @@ const getCoordinatesFromId = (id, topLeft, bottomRight) => {
 };
 
 const App = ({ showNorth, showSouth }) => {
+  console.log(showNorth);
+  console.log(showSouth);
   const [tileProvider, setTileProvider] = useState({
     name: 'Topográfico',
     tiles: 'https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}',
@@ -282,10 +284,10 @@ const App = ({ showNorth, showSouth }) => {
             return true;
           }
           if ((item.Responsabilidade === "Norte" || item.Responsabilidade === "Vietcongue")) {
-            return item.Secreto === "SECRETO" || (item.Secreto === "LIVRE" && showNorth);
+            return item.Secreto === "LIVRE" || (item.Secreto === "SECRETO" && showNorth);
           }
           if ((item.Responsabilidade === "Sul" || item.Responsabilidade === "EUA")) {
-            return item.Secreto === "SECRETO" || (item.Secreto === "LIVRE" && showSouth);
+            return item.Secreto === "LIVRE" || (item.Secreto === "SECRETO" && showSouth);
           }
           return true;
         })
