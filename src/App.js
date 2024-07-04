@@ -327,6 +327,9 @@ const App = ({ showNorth, showSouth }) => {
           if (!showMarkers) {
             return false;
           }
+          if (!item.Coordenadas || !item.Responsabilidade || !item.Icone || !item.Secreto) {
+            return false;
+          }
           if (item.Secreto === "LIVRE") { // Público
             return true;
           }
