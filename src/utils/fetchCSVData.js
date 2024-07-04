@@ -60,7 +60,7 @@ export default async function FetchCSVData(sheetURL) {
 
     function csvToObjects(csv) {
         const csvRows = csv.split("\n").map(row => row.trim()).filter(row => row);
-        console.log(csvRows)
+        //console.log(csvRows)
         const propertyNames = csvRows[0].split(",");
         let objects = [];
         for (let i = 1; i < csvRows.length; i++) {

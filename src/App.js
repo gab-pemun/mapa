@@ -5,13 +5,47 @@ import "./App.css";
 import "leaflet/dist/leaflet.css";
 import FetchCSVData from "./utils/fetchCSVData";
 import L from "leaflet";
-import marker from "./icons/marker.svg";
 
 const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTVXTWQtJYVaG0cBLzdfPoNX0HDL-hRl8QeaShGJIBW-hBbfJ-sKll7sO-XHJHUgOH6YVbC3oFTpbz3/pub?output=csv'
 
-const getMarkerIconPath = (faction, markerName) => {
-  return marker;
-  return `./icons/${faction}/${markerName}-${faction}.svg`;
+const iconDict = {
+  "Aeroporto": "plane-departure",
+  "Alvo": "crosshairs",
+  "Arma": "gun",
+  "Armadilha": "road-spikes",
+  "Avião": "plane",
+  "Aviso": "triangle-exclamation",
+  "Bandeira": "flag",
+  "Barco": "ship",
+  "Bomba": "bomb",
+  "Caça": "jet-fighter",
+  "Espionagem": "mask",
+  "Ferido": "user-injured",
+  "Governo": "landmark",
+  "Hospital": "house-medical",
+  "Logística": "truck-front",
+  "Marinha": "anchor",
+  "Mídia": "video",
+  "Mina": "land-mine-on",
+  "Paz": "dove",
+  "Ponto": "location-dot",
+  "Porta-aviões": "ferry",
+  "Tenda": "tents",
+  "Tropa": "person-rifle",
+};
+
+const factionDict = {
+  "Norte": "norte",
+  "Vietcongue": "vcong",
+  "Neutro": "solid",
+  "EUA": "eua",
+  "Sul": "sul",
+};
+
+const getMarkerIconPath = (faction, icon) => {
+  faction = factionDict[faction];
+  icon = iconDict[icon];
+  return `${process.env.PUBLIC_URL}/icons/${faction}/${icon}-${faction}.svg`;
 };
 
 const createBigGrid = (topLeft, bottomRight) => {
@@ -50,7 +84,7 @@ const createSmallGrid = (topLeft, bottomRight) => {
   const numCols = Math.ceil((bottomRight[1] - topLeft[1]));
 
   const gridBoxes = [];
-  const qttSquares = 6;
+  const qttSquares = 8;
   
   for (let i = 0; i < numRows; i++) {
     for (let j = 0; j < numCols; j++) {
@@ -136,8 +170,8 @@ const getCoordinatesFromId = (id, topLeft, bottomRight) => {
 };
 
 const App = ({ showNorth, showSouth }) => {
-  console.log(showNorth);
-  console.log(showSouth);
+  //console.log(showNorth);
+  //console.log(showSouth);
   const [tileProvider, setTileProvider] = useState({
     name: 'Topográfico',
     tiles: 'https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}',
@@ -146,6 +180,8 @@ const App = ({ showNorth, showSouth }) => {
   });
   const [showIds, setShowIds] = useState(true);
   const [showGrid, setShowGrid] = useState(true);
+  const [showMarkers, setShowMarkers] = useState(true);
+
 
   const tileProviders = {
     Political: {
@@ -185,7 +221,7 @@ const App = ({ showNorth, showSouth }) => {
     const fetchData = async () => {
         const CSVData = await FetchCSVData(sheetURL);
         setMarkers(CSVData || []);
-        console.log(CSVData)
+        ///console.log(CSVData)
     };
 
     fetchData();
@@ -227,10 +263,10 @@ const App = ({ showNorth, showSouth }) => {
     return null;
   };
   
-  markers.forEach(function(item) {
-      console.log(item);
-      console.log(getMarkerIconPath(item.Responsabilidade, item.Icone))
-  });
+  //markers.forEach(function(item) {
+      //console.log(item);
+      //console.log(getMarkerIconPath(item.Responsabilidade, item.Icone))
+  //});
 
   return (
     <div className="App">
@@ -263,6 +299,14 @@ const App = ({ showNorth, showSouth }) => {
           />
           ID
         </label>
+        <label className="control-label">
+          <input
+            type="checkbox"
+            checked={showMarkers}
+            onChange={(e) => setShowMarkers(e.target.checked)}
+          />
+          Pins
+        </label>
       </div>
       <MapContainer
         center={[16, 105]}
@@ -280,16 +324,22 @@ const App = ({ showNorth, showSouth }) => {
         <ZoomListener />
         {markers.length > 0 && markers
         .filter(item => {
-          if ((item.Responsabilidade === "Neutro")) {
+          if (!showMarkers) {
+            return false;
+          }
+          if (item.Secreto === "LIVRE") { // Público
+            return true;
+          }
+          if (showNorth && showSouth) { // Diretoria
             return true;
           }
           if ((item.Responsabilidade === "Norte" || item.Responsabilidade === "Vietcongue")) {
-            return item.Secreto === "LIVRE" || (item.Secreto === "SECRETO" && showNorth);
+            return item.Secreto === "SECRETO" && showNorth;
           }
           if ((item.Responsabilidade === "Sul" || item.Responsabilidade === "EUA")) {
-            return item.Secreto === "LIVRE" || (item.Secreto === "SECRETO" && showSouth);
+            return item.Secreto === "SECRETO" && showSouth;
           }
-          return true;
+          return false;
         })
         .map((item, index) => (
           <Marker
@@ -298,11 +348,11 @@ const App = ({ showNorth, showSouth }) => {
             icon={L.icon({
               iconUrl: getMarkerIconPath(item.Responsabilidade, item.Icone),
               iconSize: [24, 24], // Size of the icon
-              iconAnchor: [12, 24], // Point of the icon which will correspond to marker's location
+              iconAnchor: [12, 12], // Point of the icon which will correspond to marker's location
               popupAnchor: [0, -24], // Point from which the popup should open relative to the iconAnchor
             })}
           >
-            <Tooltip>
+            <Tooltip >
               <span>{item.Texto}</span>
             </Tooltip>
           </Marker>

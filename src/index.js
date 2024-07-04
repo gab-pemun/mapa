@@ -40,7 +40,6 @@ const HashLogger = () => {
 const Root = () => (
   <React.StrictMode>
     <HashRouter>
-      <RouteLogger />
       <HashLogger />
       <Routes>
         <Route path="/kingcongue" element={<App showNorth={true} showSouth={false} />} />
