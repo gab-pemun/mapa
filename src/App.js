@@ -118,7 +118,7 @@ const createSmallGrid = (topLeft, bottomRight) => {
 const getCoordinatesFromId = (id, topLeft, bottomRight) => {
   const numRows = Math.ceil((bottomRight[0] - topLeft[0]));
   const numCols = Math.ceil((bottomRight[1] - topLeft[1]));
-  const qttSquares = 6;
+  const qttSquares = 8;
 
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   
