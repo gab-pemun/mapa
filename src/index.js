@@ -45,6 +45,7 @@ const Root = () => (
         <Route path="/kingcongue" element={<App showNorth={true} showSouth={false} />} />
         <Route path="/deixaosgarotosbrincar" element={<App showNorth={false} showSouth={true} />} />
         <Route path="/peixesibito" element={<App showNorth={true} showSouth={true} />} />
+        <Route path="/pernambuco" element={<App showNorth={true} showSouth={true} vietnam={false} />} />
         <Route path="/" element={<App showNorth={false} showSouth={false} />} />
       </Routes>
     </HashRouter>

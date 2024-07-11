@@ -169,7 +169,7 @@ const getCoordinatesFromId = (id, topLeft, bottomRight) => {
   }
 };
 
-const App = ({ showNorth, showSouth }) => {
+const App = ({ showNorth, showSouth, vietnam=true }) => {
   //console.log(showNorth);
   //console.log(showSouth);
   const [tileProvider, setTileProvider] = useState({
@@ -227,18 +227,32 @@ const App = ({ showNorth, showSouth }) => {
     fetchData();
 }, []); // Empty dependency array means this effect runs only once after initial render
 
-  const boundaryCoordinates = [
-    [8, 100],
-    [24, 110]
-  ];
-
+  if (vietnam) {
+    const boundaryCoordinates = [
+      [8, 100],
+      [24, 110]
+    ];
+  
+    const maxBoundaryCoordinates = [
+      [5, 97],
+      [27, 112],
+    ];
+  }
+  else {
+    const boundaryCoordinates = [
+      [0, -48],
+      [-13, -33]
+    ];
+  
+    const maxBoundaryCoordinates = [
+      [-3, -51],
+      [30, 115],
+    ];
+  }
+  
 
   const coordinates = (id) => getCoordinatesFromId(id, boundaryCoordinates[0], boundaryCoordinates[1]);
 
-  const maxBoundaryCoordinates = [
-    [5, 97],
-    [27, 112],
-  ];
 
   const [zoomLevel, setZoomLevel] = useState(9);
   const bigGrid = createBigGrid(boundaryCoordinates[0], boundaryCoordinates[1]);
