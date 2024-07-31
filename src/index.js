@@ -26,7 +26,7 @@ const HashLogger = () => {
       }
     };
 
-    handleHashChange(); // Run on mount to navigate to the initial hash path
+    handleHashChange();
     window.addEventListener('hashchange', handleHashChange);
 
     return () => {
@@ -37,17 +37,26 @@ const HashLogger = () => {
   return null;
 };
 
+const Routing = (conflictMap) => {
+  if (conflictMap === "vietnam") {
+    return(
+      <Routes>
+        <Route path="vietnam/kingcongue" element={<App showNorth={true} showSouth={false} />} />
+        <Route path="vietnam/deixaosgarotosbrincar" element={<App showNorth={false} showSouth={true} />} />
+        <Route path="vietnam/peixesibito" element={<App showNorth={true} showSouth={true} />} />
+        <Route path="vietnam/pernambuco" element={<App showNorth={true} showSouth={true} vietnam={false} />} />
+        <Route path="*" element={<App showNorth={false} showSouth={false} />} />
+      </Routes> 
+    );
+  }
+}
+
+
 const Root = () => (
   <React.StrictMode>
     <HashRouter>
       <HashLogger />
-      <Routes>
-        <Route path="/kingcongue" element={<App showNorth={true} showSouth={false} />} />
-        <Route path="/deixaosgarotosbrincar" element={<App showNorth={false} showSouth={true} />} />
-        <Route path="/peixesibito" element={<App showNorth={true} showSouth={true} />} />
-        <Route path="/pernambuco" element={<App showNorth={true} showSouth={true} vietnam={false} />} />
-        <Route path="/" element={<App showNorth={false} showSouth={false} />} />
-      </Routes>
+      {Routing("vietnam")}
     </HashRouter>
   </React.StrictMode>
 );
