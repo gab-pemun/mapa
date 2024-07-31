@@ -6,8 +6,6 @@ import "leaflet/dist/leaflet.css";
 import FetchCSVData from "./utils/fetchCSVData";
 import L from "leaflet";
 
-const sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTVXTWQtJYVaG0cBLzdfPoNX0HDL-hRl8QeaShGJIBW-hBbfJ-sKll7sO-XHJHUgOH6YVbC3oFTpbz3/pub?output=csv'
-
 const iconDict = {
   "Aeroporto": "plane-departure",
   "Alvo": "crosshairs",
@@ -172,6 +170,41 @@ const getCoordinatesFromId = (id, topLeft, bottomRight) => {
 const App = ({ showNorth, showSouth, vietnam=true }) => {
   //console.log(showNorth);
   //console.log(showSouth);
+
+  let boundaryCoordinates;
+  let maxBoundaryCoordinates;
+  let mapCenter;
+  let sheetURL;
+
+  if (vietnam) {
+    sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTVXTWQtJYVaG0cBLzdfPoNX0HDL-hRl8QeaShGJIBW-hBbfJ-sKll7sO-XHJHUgOH6YVbC3oFTpbz3/pub?output=csv'
+    mapCenter = [16, 105];
+
+    boundaryCoordinates = [
+      [8, 100],
+      [24, 110]
+    ];
+  
+    maxBoundaryCoordinates = [
+      [5, 97],
+      [27, 112],
+    ];
+  }
+  else {
+    sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTWg5lT88cGN058YKWPE2xcw5EFoxngZc6ybo_9PmVlE_GZt86_jgTm-B6-OcqeoWN8ybhrYH0ChzDg/pub?output=csv';
+    mapCenter = [-8.063148806001525, -34.87113988210946];
+
+    boundaryCoordinates = [
+      [-17, -50],
+      [0, -33]
+    ];
+  
+    maxBoundaryCoordinates = [
+      [-20, -53],
+      [3, -30],
+    ];
+  }
+
   const [tileProvider, setTileProvider] = useState({
     name: 'Topográfico',
     tiles: 'https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}',
@@ -204,18 +237,14 @@ const App = ({ showNorth, showSouth, vietnam=true }) => {
       attribution: 'Tiles &copy; Esri &mdash; Source: Esri',
       maxZoom: 13,
     },
-    
-    /*Political: {
-      name: 'Político',
-      tiles: 'https://tile.thunderforest.com/pioneer/{z}/{x}/{y}.png?apikey=16c3739e65524510ad17106ca1175a7d',
-      attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 22,
-    },*/
   };
 
 
   const [markers, setMarkers] = useState([]);
   const location = useLocation();
+  
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -226,30 +255,6 @@ const App = ({ showNorth, showSouth, vietnam=true }) => {
 
     fetchData();
 }, []); // Empty dependency array means this effect runs only once after initial render
-
-  if (vietnam) {
-    const boundaryCoordinates = [
-      [8, 100],
-      [24, 110]
-    ];
-  
-    const maxBoundaryCoordinates = [
-      [5, 97],
-      [27, 112],
-    ];
-  }
-  else {
-    const boundaryCoordinates = [
-      [0, -48],
-      [-13, -33]
-    ];
-  
-    const maxBoundaryCoordinates = [
-      [-3, -51],
-      [30, 115],
-    ];
-  }
-  
 
   const coordinates = (id) => getCoordinatesFromId(id, boundaryCoordinates[0], boundaryCoordinates[1]);
 
@@ -323,7 +328,7 @@ const App = ({ showNorth, showSouth, vietnam=true }) => {
         </label>
       </div>
       <MapContainer
-        center={[16, 105]}
+        center={mapCenter}
         zoom={9}
         maxBounds={maxBoundaryCoordinates}
         maxBoundsViscosity={1.0}
