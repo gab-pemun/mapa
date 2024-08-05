@@ -45,7 +45,6 @@ const pernambucoData = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTWg5lT8
 
 export default async function FetchCSVData(conflict) {
     let sheetURL = null;
-    console.log("got here")
     if (conflict === "vietnam") {
         sheetURL = vietnamData;
     }

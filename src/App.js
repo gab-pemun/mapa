@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Tooltip, MapContainer, TileLayer, Polygon, useMapEvents, Marker} from "react-leaflet";
-import { BrowserRouter as useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link, useLocation } from 'react-router-dom';
 import "./App.css";
 import "leaflet/dist/leaflet.css";
 import FetchCSVData from "./utils/fetchCSVData";
@@ -168,8 +168,8 @@ const getCoordinatesFromId = (id, topLeft, bottomRight) => {
 };
 
 const App = ({ conflict, showBLUFOR, showREDFOR }) => {
-  console.log(showBLUFOR);
-  console.log(showREDFOR);
+  //console.log(showBLUFOR);
+  //console.log(showREDFOR);
 
   let boundaryCoordinates;
   let maxBoundaryCoordinates;
@@ -292,10 +292,10 @@ const App = ({ conflict, showBLUFOR, showREDFOR }) => {
     return null;
   };
   
-  markers.forEach(function(item) {
-      console.log(item);
-      console.log(getMarkerIconPath(item.Responsabilidade, item.Icone))
-  });
+  //markers.forEach(function(item) {
+      //console.log(item);
+      //console.log(getMarkerIconPath(item.Responsabilidade, item.Icone))
+  //});
 
   return (
     <div className="App">
