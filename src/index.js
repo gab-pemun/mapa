@@ -44,10 +44,18 @@ const Routing = (conflictMap) => {
         <Route path="vietnam/kingcongue" element={<App showNorth={true} showSouth={false} />} />
         <Route path="vietnam/deixaosgarotosbrincar" element={<App showNorth={false} showSouth={true} />} />
         <Route path="vietnam/peixesibito" element={<App showNorth={true} showSouth={true} />} />
-        <Route path="vietnam/pernambuco" element={<App showNorth={true} showSouth={true} vietnam={false} />} />
         <Route path="*" element={<App showNorth={false} showSouth={false} />} />
       </Routes> 
     );
+  }
+
+  if (conflictMap === "pernambuco") {
+    return <Routes>
+      <Route path="pernambuco/rebeldes" element={<App showNorth={true} showSouth={false} />} />
+      <Route path="pernambuco/brasil" element={<App showNorth={false} showSouth={true} />} />
+      <Route path="pernambuco/comando" element={<App showNorth={true} showSouth={true} />} />
+      <Route path="*" element={<App showNorth={false} showSouth={false} />} />
+    </Routes> 
   }
 }
 
