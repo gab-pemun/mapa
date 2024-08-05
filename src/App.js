@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Tooltip, MapContainer, TileLayer, Polygon, useMapEvents, Marker} from "react-leaflet";
-import { BrowserRouter as Router, Route, Switch, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as useLocation } from 'react-router-dom';
 import "./App.css";
 import "leaflet/dist/leaflet.css";
 import FetchCSVData from "./utils/fetchCSVData";
