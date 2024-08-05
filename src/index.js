@@ -37,34 +37,23 @@ const HashLogger = () => {
   return null;
 };
 
-const Routing = (conflictMap) => {
-  if (conflictMap === "vietnam") {
-    return(
-      <Routes>
-        <Route path="vietnam/kingcongue" element={<App showNorth={true} showSouth={false} />} />
-        <Route path="vietnam/deixaosgarotosbrincar" element={<App showNorth={false} showSouth={true} />} />
-        <Route path="vietnam/peixesibito" element={<App showNorth={true} showSouth={true} />} />
-        <Route path="*" element={<App showNorth={false} showSouth={false} />} />
-      </Routes> 
-    );
-  }
-
-  if (conflictMap === "pernambuco") {
-    return <Routes>
-      <Route path="pernambuco/rebeldes" element={<App showNorth={true} showSouth={false} />} />
-      <Route path="pernambuco/brasil" element={<App showNorth={false} showSouth={true} />} />
-      <Route path="pernambuco/comando" element={<App showNorth={true} showSouth={true} />} />
-      <Route path="*" element={<App showNorth={false} showSouth={false} />} />
-    </Routes> 
-  }
-}
-
-
 const Root = () => (
   <React.StrictMode>
     <HashRouter>
       <HashLogger />
-      {Routing("vietnam")}
+      <Routes>
+        <Route path="vietnam/kingcongue" element={<App conflict={"vietnam"} showBLUFOR={false} showREDFOR={true}/>} />
+        <Route path="vietnam/deixaosgarotosbrincar" element={<App conflict={"vietnam"} showBLUFOR={true} showREDFOR={false}/>} />
+        <Route path="vietnam/peixesibito" element={<App conflict={"vietnam"} showBLUFOR={true} showREDFOR={true}/>} />
+        <Route path="vietnam/*" element={<App conflict={"vietnam"} showBLUFOR={false} showREDFOR={false}/>} />
+
+        <Route path="pernambuco/rebeldes" element={<App conflict={"pernambuco"} showBLUFOR={false} showREDFOR={true}/>} />
+        <Route path="pernambuco/brasil" element={<App conflict={"pernambuco"} showBLUFOR={true} showREDFOR={false}/>} />
+        <Route path="pernambuco/diretoria" element={<App conflict={"pernambuco"} showBLUFOR={true} showREDFOR={true}/>} />
+        <Route path="pernambuco/*" element={<App conflict={"pernambuco"} showBLUFOR={false} showREDFOR={false}/>} />
+        
+        <Route path="*" element={<App showNorth={false} showSouth={false} />} />
+      </Routes> 
     </HashRouter>
   </React.StrictMode>
 );

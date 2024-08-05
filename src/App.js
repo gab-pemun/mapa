@@ -167,17 +167,15 @@ const getCoordinatesFromId = (id, topLeft, bottomRight) => {
   }
 };
 
-const App = ({ showNorth, showSouth, vietnam=true }) => {
-  //console.log(showNorth);
-  //console.log(showSouth);
+const App = ({ conflict, showBLUFOR, showREDFOR }) => {
+  console.log(showBLUFOR);
+  console.log(showREDFOR);
 
   let boundaryCoordinates;
   let maxBoundaryCoordinates;
   let mapCenter;
-  let sheetURL;
 
-  if (vietnam) {
-    sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTVXTWQtJYVaG0cBLzdfPoNX0HDL-hRl8QeaShGJIBW-hBbfJ-sKll7sO-XHJHUgOH6YVbC3oFTpbz3/pub?output=csv'
+  if (conflict === "vietnam") {
     mapCenter = [16, 105];
 
     boundaryCoordinates = [
@@ -190,8 +188,7 @@ const App = ({ showNorth, showSouth, vietnam=true }) => {
       [27, 112],
     ];
   }
-  else {
-    sheetURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTWg5lT88cGN058YKWPE2xcw5EFoxngZc6ybo_9PmVlE_GZt86_jgTm-B6-OcqeoWN8ybhrYH0ChzDg/pub?output=csv';
+  else if (conflict === "pernambuco") {
     mapCenter = [-8.063148806001525, -34.87113988210946];
 
     boundaryCoordinates = [
@@ -202,6 +199,19 @@ const App = ({ showNorth, showSouth, vietnam=true }) => {
     maxBoundaryCoordinates = [
       [-20, -53],
       [3, -30],
+    ];
+  }
+  else {
+    mapCenter = [0, 0];
+
+    boundaryCoordinates = [
+      [0, 0],
+      [0, 0],
+    ];
+  
+    maxBoundaryCoordinates = [
+      [-180, -180],
+      [180, 180]
     ];
   }
 
@@ -248,7 +258,7 @@ const App = ({ showNorth, showSouth, vietnam=true }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-        const CSVData = await FetchCSVData(sheetURL);
+        const CSVData = await FetchCSVData(conflict);
         setMarkers(CSVData || []);
         ///console.log(CSVData)
     };
@@ -282,10 +292,10 @@ const App = ({ showNorth, showSouth, vietnam=true }) => {
     return null;
   };
   
-  //markers.forEach(function(item) {
-      //console.log(item);
-      //console.log(getMarkerIconPath(item.Responsabilidade, item.Icone))
-  //});
+  markers.forEach(function(item) {
+      console.log(item);
+      console.log(getMarkerIconPath(item.Responsabilidade, item.Icone))
+  });
 
   return (
     <div className="App">
@@ -346,20 +356,20 @@ const App = ({ showNorth, showSouth, vietnam=true }) => {
           if (!showMarkers) {
             return false;
           }
-          if (!item.Coordenadas || !item.Responsabilidade || !item.Icone || !item.Secreto) {
+          if (!item.Coordenadas || !item.Responsabilidade || !item.Icone || !item.Secreto) { // Inválido
             return false;
           }
           if (item.Secreto === "LIVRE") { // Público
             return true;
           }
-          if (showNorth && showSouth) { // Diretoria
+          if (showREDFOR && showBLUFOR) { // Diretoria
             return true;
           }
-          if ((item.Responsabilidade === "Norte" || item.Responsabilidade === "Vietcongue")) {
-            return item.Secreto === "SECRETO" && showNorth;
+          if ((item.Responsabilidade === "Norte" || item.Responsabilidade === "Vietcongue")) { // REDFOR
+            return item.Secreto === "SECRETO" && showREDFOR;
           }
-          if ((item.Responsabilidade === "Sul" || item.Responsabilidade === "EUA")) {
-            return item.Secreto === "SECRETO" && showSouth;
+          if ((item.Responsabilidade === "Sul" || item.Responsabilidade === "EUA")) { // BLUFOR
+            return item.Secreto === "SECRETO" && showBLUFOR;
           }
           return false;
         })
@@ -369,9 +379,9 @@ const App = ({ showNorth, showSouth, vietnam=true }) => {
             position={coordinates(item.Coordenadas, boundaryCoordinates[0], boundaryCoordinates[1])}
             icon={L.icon({
               iconUrl: getMarkerIconPath(item.Responsabilidade, item.Icone),
-              iconSize: [24, 24], // Size of the icon
-              iconAnchor: [12, 12], // Point of the icon which will correspond to marker's location
-              popupAnchor: [0, -24], // Point from which the popup should open relative to the iconAnchor
+              iconSize: [24, 24],
+              iconAnchor: [12, 12],
+              popupAnchor: [0, -24],
             })}
           >
             <Tooltip >
