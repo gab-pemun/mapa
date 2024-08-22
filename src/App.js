@@ -203,8 +203,8 @@ const App = ({ conflict, showBLUFOR, showREDFOR }) => {
     mapCenter = [-8.063148806001525, -34.87113988210946];
 
     boundaryCoordinates = [
-      [-17, -50],
-      [0, -33],
+      [-11, -44],
+      [-2, -34],
     ];
 
     maxBoundaryCoordinates = [
