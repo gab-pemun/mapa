@@ -272,7 +272,9 @@ const App = ({ conflict, showBLUFOR, showREDFOR }) => {
     const fetchData = async () => {
       const CSVData = await FetchCSVData(conflict);
       setMarkers(CSVData || []);
-      ///console.log(CSVData)
+      if (showBLUFOR && showREDFOR) {
+        console.log(CSVData);
+      }
     };
 
     fetchData();
