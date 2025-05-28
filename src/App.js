@@ -46,12 +46,18 @@ const iconDict = {
 };
 
 const factionDict = {
-  Norte: "norte",
-  Vietcongue: "vcong",
-  Neutro: "solid",
-  EUA: "eua",
-  Sul: "sul",
+  Norte: "red",
+  Vietcongue: "green",
+  Neutro: "black",
+  EUA: "blue",
+  Sul: "yellow",
+  Brasil: "green",
+  Pernambuco: "blue",
 };
+
+const isBLUFOR = (faction) => ["EUA", "Sul", "Brasil"].includes(faction);
+const isREDFOR = (faction) =>
+  ["Norte", "Vietcongue", "Pernambuco"].includes(faction);
 
 const getMarkerIconPath = (faction, icon) => {
   faction = factionDict[faction];
@@ -197,8 +203,8 @@ const App = ({ conflict, showBLUFOR, showREDFOR }) => {
     mapCenter = [-8.063148806001525, -34.87113988210946];
 
     boundaryCoordinates = [
-      [-17, -50],
-      [0, -33],
+      [-11, -44],
+      [-2, -34],
     ];
 
     maxBoundaryCoordinates = [
@@ -266,7 +272,9 @@ const App = ({ conflict, showBLUFOR, showREDFOR }) => {
     const fetchData = async () => {
       const CSVData = await FetchCSVData(conflict);
       setMarkers(CSVData || []);
-      ///console.log(CSVData)
+      if (showBLUFOR && showREDFOR) {
+        console.log(CSVData);
+      }
     };
 
     fetchData();
@@ -389,17 +397,11 @@ const App = ({ conflict, showBLUFOR, showREDFOR }) => {
                 // Diretoria
                 return true;
               }
-              if (
-                item.Responsabilidade === "Norte" ||
-                item.Responsabilidade === "Vietcongue"
-              ) {
+              if (isREDFOR(item.Responsabilidade)) {
                 // REDFOR
                 return item.Secreto === "SECRETO" && showREDFOR;
               }
-              if (
-                item.Responsabilidade === "Sul" ||
-                item.Responsabilidade === "EUA"
-              ) {
+              if (isBLUFOR(item.Responsabilidade)) {
                 // BLUFOR
                 return item.Secreto === "SECRETO" && showBLUFOR;
               }
