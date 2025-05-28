@@ -40,7 +40,7 @@ const iconDict = {
   Mina: "land-mine-on",
   Paz: "dove",
   Ponto: "location-dot",
-  Portaaviões: "ferry",
+  "Porta-aviões": "ferry",
   Tenda: "tents",
   Tropa: "person-rifle",
 };
