@@ -24,24 +24,12 @@ export const ICON_DICT = {
   Tropa: "person-rifle",
 };
 
-export const FACTION_DICT = {
-  Norte: "red",
-  Vietcongue: "green",
-  Neutro: "black",
-  EUA: "blue",
-  Sul: "yellow",
-  Brasil: "green", // Assuming 'Brasil' maps to green for consistency with 'Vietcongue'
-  Pernambuco: "blue",
-};
-
 export const TILE_PROVIDERS = {
   Political: {
     name: "Político",
-    tiles:
-      "https://server.arcgisonline.com/ArcGIS/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}",
-    attribution:
-      "Tiles &copy; Esri &mdash; National Geographic, Esri, DeLorme, NAVTEQ, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, iPC",
-    maxZoom: 12,
+    tiles: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 19
   },
   Satellite: {
     name: "Satélite",
@@ -83,6 +71,17 @@ export const CONFLICT_MAP_DATA = {
     maxBoundaryCoordinates: [
       [-20, -53],
       [3, -30],
+    ],
+  },
+  germany: {
+    mapCenter: [51.1657, 10.4515], // More central point for Germany
+    boundaryCoordinates: [
+     [47, 3], // Southwest corner of Germany
+     [58, 14], // Northeast corner of Germany
+    ],
+    maxBoundaryCoordinates: [
+      [44, 0], // Wider southwest boundary
+      [61, 17], // Wider northeast boundary
     ],
   },
   default: {

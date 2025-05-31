@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, Polygon, useMapEvents, Tooltip } from "react-l
 import { createBigGrid, createSmallGrid } from "../utils/MapGrids";
 import { getCoordinatesFromId } from "../utils/MapUtils";
 import MapMarkers from "./MapMarkers"; // Import MapMarkers component
+import MapArmies from "./MapArmies"; // Import MapMarkers component
 
 const ZoomListener = ({ setZoomLevel }) => {
   useMapEvents({
@@ -22,6 +23,7 @@ const MapContainerComponent = ({
   showIds,
   showMarkers,
   markers,
+  armies,
   showBLUFOR,
   showREDFOR,
 }) => {
@@ -58,7 +60,7 @@ const MapContainerComponent = ({
         url={tileProvider.tiles}
         attribution={tileProvider.attribution}
         maxZoom={tileProvider.maxZoom}
-        minZoom={6}
+        minZoom={4}
       />
       <ZoomListener setZoomLevel={setZoomLevel} />
 
@@ -66,6 +68,14 @@ const MapContainerComponent = ({
       <MapMarkers
         markers={markers}
         showMarkers={showMarkers}
+        showBLUFOR={showBLUFOR}
+        showREDFOR={showREDFOR}
+        getCoordinatesFromId={(id) => getCoordinatesFromId(id, boundaryCoordinates[0], boundaryCoordinates[1])}
+      />
+
+      <MapArmies
+        armies={armies}
+        showArmies={showMarkers}
         showBLUFOR={showBLUFOR}
         showREDFOR={showREDFOR}
         getCoordinatesFromId={(id) => getCoordinatesFromId(id, boundaryCoordinates[0], boundaryCoordinates[1])}
@@ -94,7 +104,7 @@ const MapContainerComponent = ({
               ]}
               fill={true}
               fillOpacity={0}
-              weight={zoomLevel < 9 ? 0.5 : 0.15} // Adjust weight based on zoom level
+              weight={zoomLevel < 9 ? 1.0 : 0.5} // Adjust weight based on zoom level
               color={"black"}
             >
               {showIds && (

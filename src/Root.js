@@ -40,6 +40,23 @@ const Root = () => (
         path="pernambuco/*"
         element={<App conflict={"pernambuco"} showBLUFOR={false} showREDFOR={false} />}
       />
+      
+      <Route
+        path="alemanha/pacto"
+        element={<App conflict={"germany"} showBLUFOR={false} showREDFOR={true} />}
+      />
+      <Route
+        path="alemanha/otan"
+        element={<App conflict={"germany"} showBLUFOR={true} showREDFOR={false} />}
+      />
+      <Route
+        path="alemanha/diretoria"
+        element={<App conflict={"germany"} showBLUFOR={true} showREDFOR={true} />}
+      />
+      <Route
+        path="alemanha/*"
+        element={<App conflict={"germany"} showBLUFOR={false} showREDFOR={false} />}
+      />
 
       <Route path="*" element={<App showBLUFOR={false} showREDFOR={false} />} />
     </Routes>

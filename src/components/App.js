@@ -5,6 +5,7 @@ import FetchCSVData from "../utils/fetchCSVData";
 import MapContainerComponent from "./MapContainer";
 import MapControls from "./MapControls";
 import { CONFLICT_MAP_DATA, DEFAULT_TILE_PROVIDER } from "../constants/Constants";
+import { FetchConflictData } from "../utils/fetchConflictData";
 
 const App = ({ conflict, showBLUFOR, showREDFOR }) => {
   const { mapCenter, boundaryCoordinates, maxBoundaryCoordinates } = CONFLICT_MAP_DATA[conflict] || CONFLICT_MAP_DATA.default;
@@ -14,11 +15,20 @@ const App = ({ conflict, showBLUFOR, showREDFOR }) => {
   const [showGrid, setShowGrid] = useState(true);
   const [showMarkers, setShowMarkers] = useState(true);
   const [markers, setMarkers] = useState([]);
+  const [armies, setArmies] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      const CSVData = await FetchCSVData(conflict);
+      const CSVData = await FetchConflictData(conflict + "Data");
       setMarkers(CSVData || []);
+    };
+    fetchData();
+  }, [conflict]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const CSVData = await FetchConflictData(conflict + "Armies");
+      setArmies(CSVData || []);
     };
     fetchData();
   }, [conflict]);
@@ -44,6 +54,7 @@ const App = ({ conflict, showBLUFOR, showREDFOR }) => {
         showIds={showIds}
         showMarkers={showMarkers}
         markers={markers}
+        armies={armies}
         showBLUFOR={showBLUFOR}
         showREDFOR={showREDFOR}
       />
