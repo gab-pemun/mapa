@@ -6,14 +6,49 @@ import L from "leaflet";
 const isBLUFOR = (faction) => ["Alemanha Ocidental", "Estados Unidos"].includes(faction);
 const isREDFOR = (faction) => ["Alemanha Oriental", "União Soviética", "Checoslováquia"].includes(faction);
 
-const createCustomIcon = (designation, hierarchy, nationality) => {
+function getNATOSymbolPath(nationality, unitType, showBLUFOR, showREDFOR) {
+  let type;
+  let unit;
+
+  if (isBLUFOR(nationality) || (!showBLUFOR && showREDFOR)) {
+    type = 'Allied ';
+  }
+  else {
+    type = 'Enemy ';
+  }
+
+  switch (unitType) {
+    case 'Infantaria':
+      unit = 'Infantry';
+      break;
+    case 'Infantaria Leve':
+      unit = 'Light Infantry';
+      break;
+    case 'Infantaria Mecanizada':
+      unit = 'Mechanized Infantry';
+      break;
+    case 'Blindada':
+      unit = 'Armored';
+      break;
+    case 'Helicóptero':
+      unit = 'Rotary Wing Aviaton';
+      break;
+    default:
+      unit = 'Blank';
+      break;
+  }
+  console.log('/icons/NATO/' + type + unit + '.svg')
+  return '/icons/NATO/' + type + unit + '.svg';
+}
+
+const createCustomIcon = (designation, type, hierarchy, nationality, showBLUFOR, showREDFOR, zoomLevel) => {
   console.log("Creating custom icon for:", { designacao: designation, hierarquia: hierarchy, nacionalidade: nationality });
   if (typeof window.L === 'undefined') {
     console.error("Leaflet (L) não está disponível globalmente para criar ícones.");
     return null;
   }
 
-  const natoBaseIconUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Military_Symbol_-_Friendly_Unit_%28Solid_Light_1.5x1_Frame%29-_Armour_%28NATO_APP-6%29.svg/1024px-Military_Symbol_-_Friendly_Unit_%28Solid_Light_1.5x1_Frame%29-_Armour_%28NATO_APP-6%29.svg.png";
+  
 
   const flagUrls = {
     "Alemanha Ocidental": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg",
@@ -24,9 +59,6 @@ const createCustomIcon = (designation, hierarchy, nationality) => {
   };
   const flagUrl = flagUrls[nationality] || "https://placehold.co/20x15/cccccc/000000?text=Flag";
 
-  const iconSize = 60;
-  const iconAnchor = iconSize / 2;
-
   const iconHtml = `
     <div style="display: flex; flex-direction: row; align-items: flex-end; width: 100%; height: fit-content; color: black; gap: 4px;">
       <!-- Designação à esquerda -->
@@ -35,7 +67,7 @@ const createCustomIcon = (designation, hierarchy, nationality) => {
       <!-- Ícone central com hierarquia acima -->
       <div style="display: flex; flex-direction: column; align-items: center;">
         <div style="font-size: 15px; font-weight: bold; line-height: 1; margin-bottom: 2px;">${NATOHierarchy(hierarchy)}</div>
-        <img src="${natoBaseIconUrl}" style="width: 60px; height: 40px; border-radius: 2px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); border: 1px solid #d1d5db;" />
+        <img src="${getNATOSymbolPath(nationality, type, showBLUFOR, showREDFOR)}" style="width: 60px; height: 40px; border-radius: 2px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); border: 1px solid #d1d5db;" />
       </div>
 
       <!-- Bandeira à direita -->
@@ -51,7 +83,7 @@ const createCustomIcon = (designation, hierarchy, nationality) => {
   });
 };
 
-const MapArmies = ({ armies, showArmies, showBLUFOR, showREDFOR, getCoordinatesFromId }) => {
+const MapArmies = ({ armies, showArmies, showBLUFOR, showREDFOR, getCoordinatesFromId, zoomLevel }) => {
   return (
     armies.length > 0 &&
     armies
@@ -103,7 +135,7 @@ const MapArmies = ({ armies, showArmies, showBLUFOR, showREDFOR, getCoordinatesF
         <Marker
           key={index}
           position={getCoordinatesFromId(item.Localização)}
-          icon={createCustomIcon(item.Designação, item.Hierarquia, item.Nacionalidade)}
+          icon={createCustomIcon(item.Designação, item.Tipo, item.Hierarquia, item.Nacionalidade, zoomLevel)}
         >
           <Tooltip>
             <span>{item.Texto}</span>

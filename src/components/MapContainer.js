@@ -8,6 +8,7 @@ import MapArmies from "./MapArmies"; // Import MapMarkers component
 const ZoomListener = ({ setZoomLevel }) => {
   useMapEvents({
     zoomend: (e) => {
+      console.log(e.target.getZoom());
       setZoomLevel(e.target.getZoom());
     },
   });
@@ -79,6 +80,7 @@ const MapContainerComponent = ({
         showBLUFOR={showBLUFOR}
         showREDFOR={showREDFOR}
         getCoordinatesFromId={(armies) => getCoordinatesFromId(armies, boundaryCoordinates[0], boundaryCoordinates[1])}
+        zoomLevel={zoomLevel}
       />
 
       <Polygon
