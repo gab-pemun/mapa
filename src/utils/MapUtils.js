@@ -1,3 +1,29 @@
+export function NATOHierarchy(hierarchy) {
+  // Converte a hierarquia para minúsculas para uma comparação sem distinção entre maiúsculas e minúsculas
+  const normalizedHierarchy = hierarchy.toLowerCase();
+  console.log(hierarchy);
+  switch (normalizedHierarchy) {
+    case 'divisão':
+      return 'X X';
+    case 'brigada':
+      return 'X';
+    case 'regimento':
+      return '| | |';
+    case 'batalhão':
+      return '| |';
+    case 'companhia':
+      return '|';
+    case 'pelotão':
+      return '•••';
+    case 'seção':
+      return '••';
+    case 'esquadra':
+      return '•';
+    default:
+      return '';
+  }
+}
+
 export const getCoordinatesFromId = (id, topLeft, bottomRight) => {
   const numRows = Math.ceil(bottomRight[0] - topLeft[0]);
   const qttSquares = 8;

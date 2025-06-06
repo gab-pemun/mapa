@@ -1,20 +1,20 @@
 import { Marker, Tooltip } from "react-leaflet";
+import { NATOHierarchy } from "../utils/MapUtils";
 import L from "leaflet";
 
 
 const isBLUFOR = (faction) => ["Alemanha Ocidental", "Estados Unidos"].includes(faction);
 const isREDFOR = (faction) => ["Alemanha Oriental", "União Soviética", "Checoslováquia"].includes(faction);
 
-const createCustomIcon = (designacao, hierarquia, nacionalidade) => {
-  // Certifica-se de que L está disponível globalmente
+const createCustomIcon = (designation, hierarchy, nationality) => {
+  console.log("Creating custom icon for:", { designacao: designation, hierarquia: hierarchy, nacionalidade: nationality });
   if (typeof window.L === 'undefined') {
     console.error("Leaflet (L) não está disponível globalmente para criar ícones.");
-    return null; // Retorna nulo ou um ícone padrão se L não estiver carregado
+    return null;
   }
 
   const natoBaseIconUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Military_Symbol_-_Friendly_Unit_%28Solid_Light_1.5x1_Frame%29-_Armour_%28NATO_APP-6%29.svg/1024px-Military_Symbol_-_Friendly_Unit_%28Solid_Light_1.5x1_Frame%29-_Armour_%28NATO_APP-6%29.svg.png";
 
-  // Mapeamento de URLs de bandeiras para nacionalidades
   const flagUrls = {
     "Alemanha Ocidental": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg",
     "Estados Unidos": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg",
@@ -22,24 +22,32 @@ const createCustomIcon = (designacao, hierarquia, nacionalidade) => {
     "União Soviética": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Flag_of_the_Soviet_Union.svg",
     "Checoslováquia": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Flag_of_the_Czech_Republic.svg/1200px-Flag_of_the_Czech_Republic.svg.png",
   };
-  const flagUrl = flagUrls[nacionalidade] || "https://placehold.co/20x15/cccccc/000000?text=Flag";
+  const flagUrl = flagUrls[nationality] || "https://placehold.co/20x15/cccccc/000000?text=Flag";
 
   const iconSize = 60;
   const iconAnchor = iconSize / 2;
 
   const iconHtml = `
-    <div class="relative w-[${iconSize}px] h-[${iconSize}px] flex items-center justify-center text-black" style="background-image: url('${natoBaseIconUrl}'); background-size: contain; background-repeat: no-repeat; background-position: center;">
-      <div class="absolute top-[2px] text-[10px] font-bold text-center w-full leading-none">${hierarquia}</div>
-      <div class="absolute left-[2px] text-[10px] font-bold transform -rotate-90 origin-bottom-left whitespace-nowrap">${designacao}</div>
-      <img src="${flagUrl}" class="absolute right-[2px] top-1/2 -translate-y-1/2 w-[25px] h-[18px] rounded-sm shadow-sm border border-gray-300" />
+    <div style="display: flex; flex-direction: row; align-items: flex-end; width: 100%; height: fit-content; color: black; gap: 4px;">
+      <!-- Designação à esquerda -->
+      <div style="font-size: 10px; font-weight: bold; white-space: nowrap;">${designation}</div>
+
+      <!-- Ícone central com hierarquia acima -->
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <div style="font-size: 15px; font-weight: bold; line-height: 1; margin-bottom: 2px;">${NATOHierarchy(hierarchy)}</div>
+        <img src="${natoBaseIconUrl}" style="width: 60px; height: 40px; border-radius: 2px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); border: 1px solid #d1d5db;" />
+      </div>
+
+      <!-- Bandeira à direita -->
+      <img src="${flagUrl}"
+            style="width: 35px; height: 21px;" />
     </div>
   `;
 
   return window.L.divIcon({
     html: iconHtml,
     className: 'custom-military-icon',
-    iconSize: [iconSize, iconSize],
-    iconAnchor: [iconAnchor, iconAnchor],
+    iconAnchor: [60, 35],
   });
 };
 
@@ -61,10 +69,22 @@ const MapArmies = ({ armies, showArmies, showBLUFOR, showREDFOR, getCoordinatesF
           !item.Detecção ||
           !item.Texto
         ) {
+          const missing = [];
+          if (!item.Nome) missing.push('Nome');
+          if (!item.Designação) missing.push('Designação');
+          if (!item.Hierarquia) missing.push('Hierarquia');
+          if (!item.Nacionalidade) missing.push('Nacionalidade');
+          if (!item.Localização) missing.push('Localização');
+          if (!item.Tipo) missing.push('Tipo');
+          if (!item.Detecção) missing.push('Detecção');
+          if (!item.Texto) missing.push('Texto');
+
+          console.log(`Invalid marker data. Missing or empty fields: ${missing.join(', ')}`);
+          console.log(`Full item: ${JSON.stringify(item, null, 2)}`);
           return false; // Invalid marker data
         }
+
         if (item.Detecção === "DETECTADO") {
-          console.log(`Filtering out: ${item.Nome} (invalid data)`);
           return true; // Public markers are always shown
         }
         if (showREDFOR && showBLUFOR) {
@@ -82,7 +102,7 @@ const MapArmies = ({ armies, showArmies, showBLUFOR, showREDFOR, getCoordinatesF
       .map((item, index) => (
         <Marker
           key={index}
-          position={getCoordinatesFromId(item.Coordenadas)}
+          position={getCoordinatesFromId(item.Localização)}
           icon={createCustomIcon(item.Designação, item.Hierarquia, item.Nacionalidade)}
         >
           <Tooltip>

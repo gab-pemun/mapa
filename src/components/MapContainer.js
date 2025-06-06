@@ -78,7 +78,7 @@ const MapContainerComponent = ({
         showArmies={showMarkers}
         showBLUFOR={showBLUFOR}
         showREDFOR={showREDFOR}
-        getCoordinatesFromId={(id) => getCoordinatesFromId(id, boundaryCoordinates[0], boundaryCoordinates[1])}
+        getCoordinatesFromId={(armies) => getCoordinatesFromId(armies, boundaryCoordinates[0], boundaryCoordinates[1])}
       />
 
       <Polygon
