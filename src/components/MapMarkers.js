@@ -52,7 +52,6 @@ const MapMarkers = ({ markers, showMarkers, showBLUFOR, showREDFOR, getCoordinat
           return false; // Invalid marker data
         }
         if (item.Secreto === "LIVRE") {
-          console.log("Public");
           return true; // Public markers are always shown
         }
         if (showREDFOR && showBLUFOR) {
