@@ -37,12 +37,11 @@ function getNATOSymbolPath(nationality, unitType, showBLUFOR, showREDFOR) {
       unit = 'Blank';
       break;
   }
-  console.log('/icons/NATO/' + type + unit + '.svg')
-  return '/icons/NATO/' + type + unit + '.svg';
+  return process.env.PUBLIC_URL + '/icons/NATO/' + type + unit + '.svg';
 }
 
 const createCustomIcon = (designation, type, hierarchy, nationality, showBLUFOR, showREDFOR, zoomLevel) => {
-  console.log("Creating custom icon for:", { designacao: designation, hierarquia: hierarchy, nacionalidade: nationality });
+  console.log(designation, zoomLevel);
   if (typeof window.L === 'undefined') {
     console.error("Leaflet (L) não está disponível globalmente para criar ícones.");
     return null;
@@ -59,27 +58,63 @@ const createCustomIcon = (designation, type, hierarchy, nationality, showBLUFOR,
   };
   const flagUrl = flagUrls[nationality] || "https://placehold.co/20x15/cccccc/000000?text=Flag";
 
-  const iconHtml = `
-    <div style="display: flex; flex-direction: row; align-items: flex-end; width: 100%; height: fit-content; color: black; gap: 4px;">
-      <!-- Designação à esquerda -->
-      <div style="font-size: 10px; font-weight: bold; white-space: nowrap;">${designation}</div>
+const iconHtml = `
+  <div style="
+    display: flex;
+    flex-direction: column; /* Main container stacks items vertically */
+    align-items: center;   /* Centers items horizontally within the column */
+    width: fit-content;    /* Adjusts width to content */
+    height: fit-content;   /* Adjusts height to content */
+    color: black;
+    gap: 2px;             /* Small gap between stacked sections */
+  ">
+    <div style="
+      font-size: ${Math.min(15, 15 * Math.pow(zoomLevel / 10, 4))}px;
+      font-weight: bold;
+      line-height: 1;
+      white-space: nowrap;
+      /* margin-bottom: 2px; /* Add margin if you want more space below hierarchy */
+    ">${NATOHierarchy(hierarchy)}</div>
 
-      <!-- Ícone central com hierarquia acima -->
-      <div style="display: flex; flex-direction: column; align-items: center;">
-        <div style="font-size: 15px; font-weight: bold; line-height: 1; margin-bottom: 2px;">${NATOHierarchy(hierarchy)}</div>
-        <img src="${getNATOSymbolPath(nationality, type, showBLUFOR, showREDFOR)}" style="width: 60px; height: 40px; border-radius: 2px; box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); border: 1px solid #d1d5db;" />
-      </div>
+    <img
+      src="${getNATOSymbolPath(nationality, type, showBLUFOR, showREDFOR)}"
+      style="
+        width: ${Math.min(75, 75 * Math.pow(zoomLevel / 10, 3))}px;
+        height: ${Math.min(50, 50 * Math.pow(zoomLevel / 10, 4))}px;
+        border-radius: 2px;
+        /* margin-top: 2px; /* Add margin if you want more space above symbol */
+      "
+    />
 
-      <!-- Bandeira à direita -->
-      <img src="${flagUrl}"
-            style="width: 35px; height: 21px;" />
+    <div style="
+      display: flex;
+      flex-direction: row; /* Inner container stacks items horizontally */
+      align-items: center; /* Aligns designation text and flag vertically */
+      gap: 4px;             /* Gap between designation and flag */
+      /* margin-top: 2px; /* Add margin if you want more space above this section */
+    ">
+      <div style="
+        font-size: ${Math.min(12, 12 * Math.pow(zoomLevel / 10, 4))}px;
+        font-weight: bold;
+        white-space: nowrap;
+      ">${designation}</div>
+      <img
+        src="${flagUrl}"
+        style="
+          width: ${Math.min(35, 35 * Math.pow(zoomLevel / 10, 4))}px;
+          height: ${Math.min(21, 21 * Math.pow(zoomLevel / 10, 4))}px;
+        "
+      />
     </div>
-  `;
+  </div>
+`;
 
+  
+  console.log(zoomLevel);
   return window.L.divIcon({
     html: iconHtml,
     className: 'custom-military-icon',
-    iconAnchor: [60, 35],
+    iconAnchor: [Math.min(37.5, 37.5 * Math.pow(zoomLevel / 10, 4)), Math.min(42.5, 42.5 * Math.pow(zoomLevel / 10, 4))],
   });
 };
 
@@ -115,7 +150,6 @@ const MapArmies = ({ armies, showArmies, showBLUFOR, showREDFOR, getCoordinatesF
           console.log(`Full item: ${JSON.stringify(item, null, 2)}`);
           return false; // Invalid marker data
         }
-
         if (item.Detecção === "DETECTADO") {
           return true; // Public markers are always shown
         }
@@ -135,7 +169,7 @@ const MapArmies = ({ armies, showArmies, showBLUFOR, showREDFOR, getCoordinatesF
         <Marker
           key={index}
           position={getCoordinatesFromId(item.Localização)}
-          icon={createCustomIcon(item.Designação, item.Tipo, item.Hierarquia, item.Nacionalidade, zoomLevel)}
+          icon={createCustomIcon(item.Designação, item.Tipo, item.Hierarquia, item.Nacionalidade, showBLUFOR, showREDFOR, zoomLevel)}
         >
           <Tooltip>
             <span>{item.Texto}</span>
