@@ -48,7 +48,7 @@ export const TILE_PROVIDERS = {
   },
 };
 
-export const DEFAULT_TILE_PROVIDER = TILE_PROVIDERS.Topographical;
+export const DEFAULT_TILE_PROVIDER = TILE_PROVIDERS.Political;
 
 export const CONFLICT_MAP_DATA = {
   vietnam: {
