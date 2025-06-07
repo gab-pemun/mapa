@@ -171,9 +171,15 @@ const MapArmies = ({ armies, showArmies, showBLUFOR, showREDFOR, getCoordinatesF
           position={getCoordinatesFromId(item.Localização)}
           icon={createCustomIcon(item.Designação, item.Tipo, item.Hierarquia, item.Nacionalidade, showBLUFOR, showREDFOR, zoomLevel)}
         >
-          <Tooltip>
-            <span>{item.Texto}</span>
-          </Tooltip>
+        <Tooltip>
+          <span>
+            Soldados: {item.Soldados || 0} <br />
+            Tanques: {item.Tanques || 0} <br />
+            BCIs: {item.BCI || 0} <br />
+            BTIs: {item.BTI || 0}
+          </span>
+        </Tooltip>
+        
         </Marker>
       ))
   );
