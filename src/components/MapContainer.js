@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { MapContainer, TileLayer, Polygon, useMapEvents, Tooltip } from "react-leaflet";
-import { createBigGrid, createSmallGrid } from "../utils/MapGrids";
 import { getCoordinatesFromId } from "../utils/MapUtils";
 import MapMarkers from "./MapMarkers"; // Import MapMarkers component
 import MapArmies from "./MapArmies"; // Import MapMarkers component
@@ -19,6 +18,8 @@ const MapContainerComponent = ({
   mapCenter,
   boundaryCoordinates,
   maxBoundaryCoordinates,
+  bigGrid,
+  smallGrid,
   tileProvider,
   showGrid,
   showIds,
@@ -29,9 +30,6 @@ const MapContainerComponent = ({
   showREDFOR,
 }) => {
   const [zoomLevel, setZoomLevel] = useState(9);
-
-  const bigGrid = createBigGrid(boundaryCoordinates[0], boundaryCoordinates[1]);
-  const smallGrid = createSmallGrid(boundaryCoordinates[0], boundaryCoordinates[1]);
 
   const outerBoundary = [
     [
