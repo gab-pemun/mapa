@@ -133,8 +133,7 @@ const MapArmies = ({ armies, showArmies, showBLUFOR, showREDFOR, getCoordinatesF
           !item.Nacionalidade ||
           !item.Localização ||
           !item.Tipo ||
-          !item.Detecção ||
-          !item.Texto
+          !item.Detecção
         ) {
           const missing = [];
           if (!item.Nome) missing.push('Nome');
@@ -144,7 +143,6 @@ const MapArmies = ({ armies, showArmies, showBLUFOR, showREDFOR, getCoordinatesF
           if (!item.Localização) missing.push('Localização');
           if (!item.Tipo) missing.push('Tipo');
           if (!item.Detecção) missing.push('Detecção');
-          if (!item.Texto) missing.push('Texto');
 
           console.log(`Invalid marker data. Missing or empty fields: ${missing.join(', ')}`);
           console.log(`Full item: ${JSON.stringify(item, null, 2)}`);
