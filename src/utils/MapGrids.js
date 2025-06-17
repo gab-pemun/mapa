@@ -28,24 +28,25 @@ export const createSmallGrid = (topLeft, bottomRight) => {
   const numCols = Math.ceil(bottomRight[1] - topLeft[1]);
 
   const gridBoxes = [];
-  const qttSquares = 8;
+  const qttSquaresHorizontal = 10;
+  const qttSquaresVertical = 6;
 
   for (let i = 0; i < numRows; i++) {
     for (let j = 0; j < numCols; j++) {
-      for (let k = 0; k < qttSquares; k++) {
-        for (let l = 0; l < qttSquares; l++) {
+      for (let k = 0; k < qttSquaresHorizontal; k++) {
+        for (let l = 0; l < qttSquaresVertical; l++) {
           let boxTopLeft = [
-            topLeft[0] + i + k / qttSquares,
-            topLeft[1] + j + l / qttSquares,
+            topLeft[0] + i + k / qttSquaresHorizontal,
+            topLeft[1] + j + l / qttSquaresVertical,
           ];
           let boxBottomRight = [
-            topLeft[0] + i + (k + 1) / qttSquares,
-            topLeft[1] + j + (l + 1) / qttSquares,
+            topLeft[0] + i + (k + 1) / qttSquaresHorizontal,
+            topLeft[1] + j + (l + 1) / qttSquaresVertical,
           ];
 
           const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
           const id = `${alphabet[numRows - i - 1]}${j}-${
-            qttSquares - k - 1
+            qttSquaresHorizontal - k - 1
           }${l}`;
 
           gridBoxes.push({
