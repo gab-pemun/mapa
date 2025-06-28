@@ -89,11 +89,11 @@ export const CONFLICT_MAP_DATA = {
     mapCenter: [39.8283, -98.5795], // Geographic center of the contiguous USA
     boundaryCoordinates: [
       [24.5, -125], // Southernmost point (Florida Keys) and Westernmost point (Washington)
-      [49, -66.9], // Northernmost point (Maine) and Easternmost point (Maine)
+      [49.5, -67], // Northernmost point (Maine) and Easternmost point (Maine)
     ],
     maxBoundaryCoordinates: [
       [21.5, -128], // Slightly wider south and west
-      [51, -65], // Slightly wider north and east
+      [52.5, -64], // Slightly wider north and east
     ],
   },
 
