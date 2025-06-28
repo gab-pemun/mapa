@@ -55,6 +55,8 @@ const createCustomIcon = (designation, type, hierarchy, nationality, showBLUFOR,
     "Alemanha Oriental": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Flag_of_the_German_Democratic_Republic.svg/1024px-Flag_of_the_German_Democratic_Republic.svg.png",
     "União Soviética": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Flag_of_the_Soviet_Union.svg",
     "Checoslováquia": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Flag_of_the_Czech_Republic.svg/1200px-Flag_of_the_Czech_Republic.svg.png",
+    "Panem": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Flag_of_Panem.svg",
+    "Rebeldes": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Post-Revolution_Flag_of_Panem_%28Hunger_Games%29.webp",
   };
   const flagUrl = flagUrls[nationality] || "https://placehold.co/20x15/cccccc/000000?text=Flag";
 
