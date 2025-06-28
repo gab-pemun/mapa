@@ -24,7 +24,7 @@ export function NATOHierarchy(hierarchy) {
   }
 }
 
-export const getCoordinatesFromId = (id, conflict, topLeft, bottomRight) => {
+export const getCoordinatesFromId = (id, topLeft, bottomRight) => {
   const numRows = Math.ceil(bottomRight[0] - topLeft[0]);
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const qttSquares = 8;
