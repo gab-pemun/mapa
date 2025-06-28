@@ -92,7 +92,7 @@ const MapContainerComponent = ({
       />
 
       {showGrid &&
-        (zoomLevel < 9 ? bigGrid : smallGrid).data.map(
+        (zoomLevel < 8 ? bigGrid : smallGrid).data.map(
           ({ id, topLeft, bottomRight }) => (
             <Polygon
               key={id}

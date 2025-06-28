@@ -25,8 +25,8 @@ export const createBigGrid = (conflict, topLeft, bottomRight) => {
 };
 
 export const createSmallGrid = (topLeft, bottomRight) => {
-  const numRows = Math.ceil(bottomRight[0] - topLeft[0] / 4);
-  const numCols = Math.ceil(bottomRight[1] - topLeft[1] / 4);
+  const numRows = Math.ceil(Math.abs(bottomRight[0] - topLeft[0]) / 4);
+  const numCols = Math.ceil(Math.abs(bottomRight[1] - topLeft[1]) / 4);
 
   const gridBoxes = [];
   const qttSquaresHorizontal = 10;
@@ -59,6 +59,6 @@ export const createSmallGrid = (topLeft, bottomRight) => {
       }
     }
   }
-
+  console.log(numRows, numCols, 5);
   return { data: gridBoxes };
 };

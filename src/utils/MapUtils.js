@@ -35,14 +35,14 @@ export const getCoordinatesFromId = (id, topLeft, bottomRight) => {
     const subBoxCol = parseInt(id.charAt(id.indexOf("-") + 2), 10);
 
     const rowIndex = numRows - alphabet.indexOf(rowChar) - 1;
-
+    console.log("This:",numRows, rowIndex);
     const boxTopLeft = [
-      topLeft[0] + rowIndex + (10 - subBoxRow - 1) / 10,
-      topLeft[1] + colIndex + subBoxCol / 6,
+      topLeft[0] + 4*rowIndex + 4*(10 - subBoxRow - 1) / 10,
+      topLeft[1] + 4*colIndex + 4*subBoxCol / 6,
     ];
     const boxBottomRight = [
-      topLeft[0] + rowIndex + (10 - subBoxRow) / 10,
-      topLeft[1] + colIndex + (subBoxCol + 1) / 6,
+      topLeft[0] + 4*rowIndex + 4*(10 - subBoxRow) / 10,
+      topLeft[1] + 4*colIndex + 4*(subBoxCol + 1) / 6,
     ];
 
     const center = [
@@ -58,8 +58,8 @@ export const getCoordinatesFromId = (id, topLeft, bottomRight) => {
 
     const boxTopLeft = [topLeft[0] + rowIndex, topLeft[1] + colIndex];
     const boxBottomRight = [
-      topLeft[0] + rowIndex + 1,
-      topLeft[1] + colIndex + 1,
+      topLeft[0] + 4*rowIndex + 4,
+      topLeft[1] + 4*colIndex + 4,
     ];
 
     const center = [
