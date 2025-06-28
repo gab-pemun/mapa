@@ -58,6 +58,11 @@ const Root = () => (
         element={<App conflict={"germany"} showBLUFOR={false} showREDFOR={false} />}
       />
 
+      <Route
+        path="panem/*"
+        element={<App conflict={"panem"} showBLUFOR={true} showREDFOR={false} />}
+      />
+
       <Route path="*" element={<App showBLUFOR={false} showREDFOR={false} />} />
     </Routes>
   </>

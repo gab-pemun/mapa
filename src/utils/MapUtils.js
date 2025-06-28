@@ -24,10 +24,10 @@ export function NATOHierarchy(hierarchy) {
   }
 }
 
-export const getCoordinatesFromId = (id, topLeft, bottomRight) => {
+export const getCoordinatesFromId = (id, conflict, topLeft, bottomRight) => {
   const numRows = Math.ceil(bottomRight[0] - topLeft[0]);
-  const qttSquares = 8;
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const qttSquares = 8;
 
   if (id.includes("-")) {
     const rowChar = id.charAt(0);

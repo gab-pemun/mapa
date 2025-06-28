@@ -3,8 +3,8 @@ import { NATOHierarchy } from "../utils/MapUtils";
 import L from "leaflet";
 
 
-const isBLUFOR = (faction) => ["Alemanha Ocidental", "Estados Unidos"].includes(faction);
-const isREDFOR = (faction) => ["Alemanha Oriental", "União Soviética", "Checoslováquia"].includes(faction);
+const isBLUFOR = (faction) => ["Alemanha Ocidental", "Estados Unidos", "Rebeldes"].includes(faction);
+const isREDFOR = (faction) => ["Alemanha Oriental", "União Soviética", "Checoslováquia", "Capital"].includes(faction);
 
 function getNATOSymbolPath(nationality, unitType, showBLUFOR, showREDFOR) {
   let type;

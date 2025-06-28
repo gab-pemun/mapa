@@ -4,6 +4,9 @@ const vietnamData = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_placehol
 const pernambucoData = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS_placeholder_pernambuco/pub?output=csv";
 const germanyArmies = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRgVF0EAsYl4RV8NIrSSS_xiLgYD41AFSw0s8uE54KXvJhYPSj2lzGl-zhL85UHgAfinyNFjxo5jKIu/pub?output=csv";
 const germanyData = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQbDe_ajIW7B4tUSv6tekm5slTu-Ion19-L59g4vXx4rkBojNd0oCrV0qIyjVJxYppMi152ACnb33jC/pub?output=csv";
+const panemArmies = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQf2ukJkgPBgnv6dsr1fbI7_Z97KI3NHUDpeWzmfdvIvM8YGQnoPpoMb0awwb-j9er-O6tuXgqdxclz/pub?output=csv"
+const panemData = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbCCaFQvlXTepd_5dGKnYwVwoNNNBv43lnCxZ-X9AlFY6ya57PA9jbvJBbk7Zno1hGkMWEJk3wJApD/pub?output=csv"
+
 
 /**
  * Fetches conflict data based on the provided conflict name.
@@ -31,6 +34,12 @@ export async function FetchConflictData(conflict) {
       break;
     case "germanyData":
       sheetURL = germanyData;
+      break;
+    case "panemArmies":
+      sheetURL = panemArmies;
+      break;
+    case "panemData":
+      sheetURL = panemData;
       break;
     default:
       // Log a warning if an unknown conflict name is provided.

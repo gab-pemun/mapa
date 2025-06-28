@@ -1,6 +1,7 @@
-export const createBigGrid = (topLeft, bottomRight) => {
-  const numRows = Math.ceil(bottomRight[0] - topLeft[0]);
-  const numCols = Math.ceil(bottomRight[1] - topLeft[1]);
+export const createBigGrid = (conflict, topLeft, bottomRight) => {
+  console.log(bottomRight[0]);
+  const numRows = Math.ceil(Math.abs(bottomRight[0] - topLeft[0]));
+  const numCols = Math.ceil(Math.abs(bottomRight[1] - topLeft[1]));
 
   const gridBoxes = [];
 
