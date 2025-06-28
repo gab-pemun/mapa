@@ -25,9 +25,8 @@ export function NATOHierarchy(hierarchy) {
 }
 
 export const getCoordinatesFromId = (id, topLeft, bottomRight) => {
-  const numRows = Math.ceil(bottomRight[0] - topLeft[0]);
+  const numRows = Math.ceil(Math.abs(bottomRight[0] - topLeft[0]) / 4);
   const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const qttSquares = 8;
 
   if (id.includes("-")) {
     const rowChar = id.charAt(0);
@@ -38,19 +37,18 @@ export const getCoordinatesFromId = (id, topLeft, bottomRight) => {
     const rowIndex = numRows - alphabet.indexOf(rowChar) - 1;
 
     const boxTopLeft = [
-      topLeft[0] + rowIndex + (qttSquares - subBoxRow - 1) / qttSquares,
-      topLeft[1] + colIndex + subBoxCol / qttSquares,
+      topLeft[0] + rowIndex + (10 - subBoxRow - 1) / 10,
+      topLeft[1] + colIndex + subBoxCol / 6,
     ];
     const boxBottomRight = [
-      topLeft[0] + rowIndex + (qttSquares - subBoxRow) / qttSquares,
-      topLeft[1] + colIndex + (subBoxCol + 1) / qttSquares,
+      topLeft[0] + rowIndex + (10 - subBoxRow) / 10,
+      topLeft[1] + colIndex + (subBoxCol + 1) / 6,
     ];
 
     const center = [
       (boxTopLeft[0] + boxBottomRight[0]) / 2,
       (boxTopLeft[1] + boxBottomRight[1]) / 2,
     ];
-
     return center;
   } else {
     const rowChar = id.charAt(0);
