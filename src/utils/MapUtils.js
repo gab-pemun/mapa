@@ -3,6 +3,10 @@ export function NATOHierarchy(hierarchy) {
   const normalizedHierarchy = hierarchy.toLowerCase();
   console.log(hierarchy);
   switch (normalizedHierarchy) {
+    case 'exército':
+      return 'X X X X';
+    case 'corpo':
+      return 'X X X';
     case 'divisão':
       return 'X X';
     case 'brigada':

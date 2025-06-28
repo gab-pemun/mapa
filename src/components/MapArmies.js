@@ -4,7 +4,7 @@ import L from "leaflet";
 
 
 const isBLUFOR = (faction) => ["Alemanha Ocidental", "Estados Unidos", "Rebeldes"].includes(faction);
-const isREDFOR = (faction) => ["Alemanha Oriental", "União Soviética", "Checoslováquia", "Capital"].includes(faction);
+const isREDFOR = (faction) => ["Alemanha Oriental", "União Soviética", "Checoslováquia", "Panem"].includes(faction);
 
 function getNATOSymbolPath(nationality, unitType, showBLUFOR, showREDFOR) {
   let type;

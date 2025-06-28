@@ -4,8 +4,8 @@ import L from "leaflet";
 import { ICON_DICT, FACTION_DICT } from "../constants/Constants";
 
 
-const isBLUFOR = (faction) => ["Alemanha Ocidental", "Estados Unidos"].includes(faction);
-const isREDFOR = (faction) => ["Alemanha Oriental", "União Soviética", "Checoslováquia"].includes(faction);
+const isBLUFOR = (faction) => ["Alemanha Ocidental", "Estados Unidos", "Rebeldes"].includes(faction);
+const isREDFOR = (faction) => ["Alemanha Oriental", "União Soviética", "Checoslováquia", "Panem"].includes(faction);
 
 const getMarkerIconPath = (faction, icon, fullShow, blueNotRed) => {
   let mappedColor;
