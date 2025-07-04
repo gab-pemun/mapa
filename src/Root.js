@@ -42,11 +42,11 @@ const Root = () => (
       />
       
       <Route
-        path="alemanha/pacto"
+        path="alemanha/comunismovencera"
         element={<App conflict={"germany"} showBLUFOR={false} showREDFOR={true} />}
       />
       <Route
-        path="alemanha/otan"
+        path="alemanha/bondedotigrao"
         element={<App conflict={"germany"} showBLUFOR={true} showREDFOR={false} />}
       />
       <Route

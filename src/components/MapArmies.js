@@ -175,7 +175,7 @@ const MapArmies = ({ armies, showArmies, showBLUFOR, showREDFOR, getCoordinatesF
             Soldados: {item.Soldados || 0} <br />
             Tanques: {item.Tanques || 0} <br />
             BCIs: {item.BCI || 0} <br />
-            Helicópteros: {item.Heli || 0}
+            Helicópteros: {item.Helicópteros || 0}
           </span>
         </Tooltip>
         
