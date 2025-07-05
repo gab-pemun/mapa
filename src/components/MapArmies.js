@@ -3,8 +3,8 @@ import { NATOHierarchy } from "../utils/MapUtils";
 import L from "leaflet";
 
 
-const isBLUFOR = (faction) => ["Alemanha Ocidental", "Estados Unidos", "Rebeldes"].includes(faction);
-const isREDFOR = (faction) => ["Alemanha Oriental", "União Soviética", "Checoslováquia", "Panem"].includes(faction);
+const isBLUFOR = (faction) => ["Alemanha Ocidental", "Estados Unidos", "Rebeldes", "República"].includes(faction);
+const isREDFOR = (faction) => ["Alemanha Oriental", "União Soviética", "Checoslováquia", "Panem", "Separatistas"].includes(faction);
 
 function getNATOSymbolPath(nationality, unitType, showBLUFOR, showREDFOR) {
   let type;
@@ -57,6 +57,8 @@ const createCustomIcon = (designation, type, hierarchy, nationality, showBLUFOR,
     "Checoslováquia": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Flag_of_the_Czech_Republic.svg/1200px-Flag_of_the_Czech_Republic.svg.png",
     "Panem": "https://upload.wikimedia.org/wikipedia/commons/4/4e/Flag_of_Panem.svg",
     "Rebeldes": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Post-Revolution_Flag_of_Panem_%28Hunger_Games%29.webp",
+    "República": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Flag_of_the_Galactic_Republic_%28Clone_Wars%29.svg/2560px-Flag_of_the_Galactic_Republic_%28Clone_Wars%29.svg.png",
+    "Separatistas": "https://i.pinimg.com/736x/90/25/2c/90252cdb98ae82e83208d68d908834be.jpg",
   };
   const flagUrl = flagUrls[nationality] || "https://placehold.co/20x15/cccccc/000000?text=Flag";
 
@@ -173,9 +175,7 @@ const MapArmies = ({ armies, showArmies, showBLUFOR, showREDFOR, getCoordinatesF
         <Tooltip>
           <span>
             Soldados: {item.Soldados || 0} <br />
-            Tanques: {item.Tanques || 0} <br />
-            BCIs: {item.BCI || 0} <br />
-            Helicópteros: {item.Helicópteros || 0}
+            Complemento: {item.Adicional || 0} <br />
           </span>
         </Tooltip>
         

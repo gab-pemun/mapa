@@ -63,6 +63,25 @@ const Root = () => (
         element={<App conflict={"panem"} showBLUFOR={true} showREDFOR={false} />}
       />
 
+
+      <Route
+        path="geonosis/republica"
+        element={<App conflict={"geonosis"} showBLUFOR={true} showREDFOR={false} />}
+
+      /><Route
+        path="geonosis/separatistas"
+        element={<App conflict={"geonosis"} showBLUFOR={false} showREDFOR={true} />}
+      />
+
+      <Route
+        path="geonosis/palpatine"
+        element={<App conflict={"geonosis"} showBLUFOR={true} showREDFOR={true} />}
+      />
+      <Route
+        path="geonosis/*"
+        element={<App conflict={"geonosis"} showBLUFOR={false} showREDFOR={false} />}
+      />
+
       <Route path="*" element={<App showBLUFOR={false} showREDFOR={false} />} />
     </Routes>
   </>

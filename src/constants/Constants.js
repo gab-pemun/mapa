@@ -25,12 +25,6 @@ export const ICON_DICT = {
 };
 
 export const TILE_PROVIDERS = {
-  Political: {
-    name: "Político",
-    tiles: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 19
-  },
   Satellite: {
     name: "Satélite",
     tiles:
@@ -48,7 +42,7 @@ export const TILE_PROVIDERS = {
   },
 };
 
-export const DEFAULT_TILE_PROVIDER = TILE_PROVIDERS.Political;
+export const DEFAULT_TILE_PROVIDER = TILE_PROVIDERS.Satellite;
 
 export const CONFLICT_MAP_DATA = {
   vietnam: {
@@ -96,6 +90,19 @@ export const CONFLICT_MAP_DATA = {
       [54.5, -63], // Slightly wider north and east
     ],
   },
+
+  geonosis: {
+    mapCenter: [26.5, 24], // Center of the Libyan Desert
+    boundaryCoordinates: [
+      [15, 6], // Southernmost and Westernmost point
+      [21, 15], // Northernmost and Easternmost point
+    ],
+    maxBoundaryCoordinates: [
+      [15, 6],  // Slightly wider south and west
+      [21, 15], // Slightly wider north and east
+    ],
+  },
+
 
   default: {
     mapCenter: [0, 0],

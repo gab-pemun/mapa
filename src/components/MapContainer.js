@@ -59,7 +59,7 @@ const MapContainerComponent = ({
         url={tileProvider.tiles}
         attribution={tileProvider.attribution}
         maxZoom={tileProvider.maxZoom}
-        minZoom={4}
+        minZoom={7}
       />
       <ZoomListener setZoomLevel={setZoomLevel} />
 
@@ -92,7 +92,7 @@ const MapContainerComponent = ({
       />
 
       {showGrid &&
-        (zoomLevel < 8 ? bigGrid : smallGrid).data.map(
+        (zoomLevel < 10 ? bigGrid : smallGrid).data.map(
           ({ id, topLeft, bottomRight }) => (
             <Polygon
               key={id}
