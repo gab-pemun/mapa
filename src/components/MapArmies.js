@@ -41,7 +41,7 @@ function getNATOSymbolPath(nationality, unitType, showBLUFOR, showREDFOR) {
 }
 
 const createCustomIcon = (designation, type, hierarchy, nationality, showBLUFOR, showREDFOR, zoomLevel) => {
-  console.log(designation, zoomLevel);
+  //console.log(designation, zoomLevel);
   if (typeof window.L === 'undefined') {
     console.error("Leaflet (L) não está disponível globalmente para criar ícones.");
     return null;
@@ -153,7 +153,7 @@ const MapArmies = ({ armies, showArmies, showBLUFOR, showREDFOR, getCoordinatesF
           return true; // Public markers are always shown
         }
         if (showREDFOR && showBLUFOR) {
-          console.log(`Showing all armies: ${item.Nome}`);
+          //console.log(`Showing all armies: ${item.Nome}`);
           return true;
         }
         if (isREDFOR(item.Nacionalidade)) {
