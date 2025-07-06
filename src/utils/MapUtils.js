@@ -1,7 +1,7 @@
 export function NATOHierarchy(hierarchy) {
   // Converte a hierarquia para minúsculas para uma comparação sem distinção entre maiúsculas e minúsculas
   const normalizedHierarchy = hierarchy.toLowerCase();
-  console.log(hierarchy);
+  //console.log(hierarchy);
   switch (normalizedHierarchy) {
     case 'exército':
       return 'X X X X';
@@ -39,7 +39,7 @@ export const getCoordinatesFromId = (id, topLeft, bottomRight) => {
     const subBoxCol = parseInt(id.charAt(id.indexOf("-") + 2), 10);
 
     const rowIndex = numRows - alphabet.indexOf(rowChar) - 1;
-    console.log("This:",numRows, rowIndex);
+    //console.log("This:",numRows, rowIndex);
     const boxTopLeft = [
       topLeft[0] + rowIndex + (10 - subBoxRow - 1) / 10,
       topLeft[1] + colIndex + subBoxCol / 6,
