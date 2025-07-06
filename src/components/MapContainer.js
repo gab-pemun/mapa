@@ -1,16 +1,31 @@
-import React, { useState } from "react";
-import { MapContainer, TileLayer, Polygon, useMapEvents, Tooltip } from "react-leaflet";
+import React, { useState, useEffect, useCallback } from "react";
+import { MapContainer, TileLayer, Polygon, useMapEvents, Tooltip, useMap } from "react-leaflet";
 import { getCoordinatesFromId } from "../utils/MapUtils";
+import L from 'leaflet';
 import MapMarkers from "./MapMarkers"; // Import MapMarkers component
 import MapArmies from "./MapArmies"; // Import MapMarkers component
 
-const ZoomListener = ({ setZoomLevel }) => {
+const ZoomAndBoundsListener = ({ setZoomLevel, setMapBounds }) => {
+  const map = useMap(); // Get the map instance
+
+  const updateMapState = useCallback(() => {
+    setZoomLevel(map.getZoom());
+    setMapBounds(map.getBounds());
+  }, [map, setZoomLevel, setMapBounds]);
+
   useMapEvents({
-    zoomend: (e) => {
-      console.log(e.target.getZoom());
-      setZoomLevel(e.target.getZoom());
-    },
+    zoomend: updateMapState, // Update on zoom changes
+    moveend: updateMapState, // Update on map movement
+    load: updateMapState,    // Update on initial map load
   });
+
+  // Initial update when component mounts and map is ready
+  useEffect(() => {
+    if (map) {
+      updateMapState();
+    }
+  }, [map, updateMapState]);
+
   return null;
 };
 
@@ -30,6 +45,25 @@ const MapContainerComponent = ({
   showREDFOR,
 }) => {
   const [zoomLevel, setZoomLevel] = useState(9);
+  const [mapBounds, setMapBounds] = useState(null); // State to store current map bounds
+
+
+    const isGridCellVisible = useCallback((gridCell, currentMapBounds) => {
+    if (!currentMapBounds) return false;
+
+    const [topLeftLat, topLeftLng] = gridCell.topLeft;
+    const [bottomRightLat, bottomRightLng] = gridCell.bottomRight;
+
+    // Create Leaflet LatLngBounds for the grid cell
+    const gridCellBounds = L.latLngBounds(
+      L.latLng(bottomRightLat, topLeftLng ), // SW corner
+      L.latLng(topLeftLat, bottomRightLng)   // NE corner
+    );
+
+    // Check for intersection
+    return currentMapBounds.intersects(gridCellBounds);
+  }, []);
+
 
   const outerBoundary = [
     [
@@ -47,6 +81,16 @@ const MapContainerComponent = ({
     ],
   ];
 
+  const currentGrid = zoomLevel < 8 ? bigGrid : smallGrid;
+  console.log(mapBounds);
+  const filteredGrid = mapBounds && showGrid
+  ? currentGrid.data.filter(cell => isGridCellVisible(cell, mapBounds))
+  : [];
+
+
+    
+  console.log(filteredGrid);
+
   return (
     <MapContainer
       center={mapCenter}
@@ -61,7 +105,7 @@ const MapContainerComponent = ({
         maxZoom={tileProvider.maxZoom}
         minZoom={4}
       />
-      <ZoomListener setZoomLevel={setZoomLevel} />
+      <ZoomAndBoundsListener setZoomLevel={setZoomLevel} setMapBounds={setMapBounds} />
 
       {/* Render Markers */}
       <MapMarkers
@@ -91,8 +135,7 @@ const MapContainerComponent = ({
         }}
       />
 
-      {showGrid &&
-        (zoomLevel < 8 ? bigGrid : smallGrid).data.map(
+      {showGrid && filteredGrid.map(
           ({ id, topLeft, bottomRight }) => (
             <Polygon
               key={id}
