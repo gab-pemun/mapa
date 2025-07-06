@@ -77,11 +77,11 @@ export const CONFLICT_MAP_DATA = {
     mapCenter: [51.1657, 10.4515],
     boundaryCoordinates: [
      [47, 3], // Southwest corner of Germany
-     [58, 14], // Northeast corner of Germany
+     [58, 18], // Northeast corner of Germany
     ],
     maxBoundaryCoordinates: [
       [44, 0], // Wider southwest boundary
-      [61, 17], // Wider northeast boundary
+      [61, 21], // Wider northeast boundary
     ],
   },
 
