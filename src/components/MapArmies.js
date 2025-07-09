@@ -77,7 +77,7 @@ const iconHtml = `
     gap: 2px;             /* Small gap between stacked sections */
   ">
     <div style="
-      font-size: ${Math.min(15, 15 * Math.pow((zoomLevel) / 10, 4))}px;
+      font-size: ${Math.min(15, 15 * Math.pow((zoomLevel) / 10, 3))}px;
       font-weight: bold;
       line-height: 1;
       white-space: nowrap;
@@ -88,7 +88,7 @@ const iconHtml = `
       src="${getNATOSymbolPath(nationality, type, showBLUFOR, showREDFOR)}"
       style="
         width: ${Math.min(75, 75 * Math.pow((zoomLevel) / 10, 3))}px;
-        height: ${Math.min(50, 50 * Math.pow((zoomLevel) / 10, 4))}px;
+        height: ${Math.min(50, 50 * Math.pow((zoomLevel) / 10, 3))}px;
         border-radius: 2px;
         /* margin-top: 2px; /* Add margin if you want more space above symbol */
       "
@@ -102,15 +102,15 @@ const iconHtml = `
       /* margin-top: 2px; /* Add margin if you want more space above this section */
     ">
       <div style="
-        font-size: ${Math.min(12, 12 * Math.pow((zoomLevel) / 10, 4))}px;
+        font-size: ${Math.min(12, 12 * Math.pow((zoomLevel) / 10, 3))}px;
         font-weight: bold;
         white-space: nowrap;
       ">${designation}</div>
       <img
         src="${flagUrl}"
         style="
-          width: ${Math.min(35, 35 * Math.pow((zoomLevel) / 10, 4))}px;
-          height: ${Math.min(21, 21 * Math.pow((zoomLevel) / 10, 4))}px;
+          width: ${Math.min(35, 35 * Math.pow((zoomLevel) / 10, 3))}px;
+          height: ${Math.min(21, 21 * Math.pow((zoomLevel) / 10, 3))}px;
         "
       />
     </div>
@@ -121,7 +121,7 @@ const iconHtml = `
   return window.L.divIcon({
     html: iconHtml,
     className: 'custom-military-icon',
-    iconAnchor: [Math.min(37.5, 37.5 * Math.pow((zoomLevel) / 10, 4)), Math.min(42.5, 42.5 * Math.pow((zoomLevel) / 10, 4))],
+    iconAnchor: [Math.min(37.5, 37.5 * Math.pow((zoomLevel) / 10, 3)), Math.min(42.5, 42.5 * Math.pow((zoomLevel) / 10, 3))],
   });
 };
 
