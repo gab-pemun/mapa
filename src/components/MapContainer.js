@@ -82,14 +82,14 @@ const MapContainerComponent = ({
   ];
 
   const currentGrid = zoomLevel < 8 ? bigGrid : smallGrid;
-  console.log(mapBounds);
+  //console.log(mapBounds);
   const filteredGrid = mapBounds && showGrid
   ? currentGrid.data.filter(cell => isGridCellVisible(cell, mapBounds))
   : [];
 
 
     
-  console.log(filteredGrid);
+  //console.log(filteredGrid);
 
   return (
     <MapContainer
