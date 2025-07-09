@@ -47,7 +47,23 @@ const createCustomIcon = (designation, type, hierarchy, nationality, showBLUFOR,
     return null;
   }
 
-  
+  const getHierarchyZoomFactor = (hierarchy) => {
+    switch (hierarchy) {
+      case "Companhia":
+      case "Batalhão":
+        return 1;
+      case "Regimento":
+      case "Brigada":
+      case "Divisão":
+        return 2;
+      case "Corpo":
+        return 3; // Example: Larger zoom effect for larger units (original value)
+      default:
+        return 0; // Default zoom factor if hierarchy is not specified
+    }
+  };
+
+  const zoomSize = getHierarchyZoomFactor(hierarchy);
 
   const flagUrls = {
     "Alemanha Ocidental": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Flag_of_Germany.svg",
@@ -77,7 +93,7 @@ const iconHtml = `
     gap: 2px;             /* Small gap between stacked sections */
   ">
     <div style="
-      font-size: ${Math.min(15, 15 * Math.pow((zoomLevel) / 10, 3))}px;
+      font-size: ${Math.min(15, 15 * Math.pow((zoomLevel + zoomLevel) / 10, 3))}px;
       font-weight: bold;
       line-height: 1;
       white-space: nowrap;
@@ -87,8 +103,8 @@ const iconHtml = `
     <img
       src="${getNATOSymbolPath(nationality, type, showBLUFOR, showREDFOR)}"
       style="
-        width: ${Math.min(75, 75 * Math.pow((zoomLevel) / 10, 3))}px;
-        height: ${Math.min(50, 50 * Math.pow((zoomLevel) / 10, 3))}px;
+        width: ${Math.min(75, 75 * Math.pow((zoomLevel + zoomSize) / 10, 3))}px;
+        height: ${Math.min(50, 50 * Math.pow((zoomLevel + zoomSize) / 10, 3))}px;
         border-radius: 2px;
         /* margin-top: 2px; /* Add margin if you want more space above symbol */
       "
@@ -102,15 +118,15 @@ const iconHtml = `
       /* margin-top: 2px; /* Add margin if you want more space above this section */
     ">
       <div style="
-        font-size: ${Math.min(12, 12 * Math.pow((zoomLevel) / 10, 3))}px;
+        font-size: ${Math.min(12, 12 * Math.pow((zoomLevel + zoomSize) / 10, 3))}px;
         font-weight: bold;
         white-space: nowrap;
       ">${designation}</div>
       <img
         src="${flagUrl}"
         style="
-          width: ${Math.min(35, 35 * Math.pow((zoomLevel) / 10, 3))}px;
-          height: ${Math.min(21, 21 * Math.pow((zoomLevel) / 10, 3))}px;
+          width: ${Math.min(35, 35 * Math.pow((zoomLevel + zoomSize) / 10, 3))}px;
+          height: ${Math.min(21, 21 * Math.pow((zoomLevel + zoomSize) / 10, 3))}px;
         "
       />
     </div>
@@ -121,7 +137,7 @@ const iconHtml = `
   return window.L.divIcon({
     html: iconHtml,
     className: 'custom-military-icon',
-    iconAnchor: [Math.min(37.5, 37.5 * Math.pow((zoomLevel) / 10, 3)), Math.min(42.5, 42.5 * Math.pow((zoomLevel) / 10, 3))],
+    iconAnchor: [Math.min(37.5, 37.5 * Math.pow((zoomLevel + zoomSize) / 10, 3)), Math.min(42.5, 42.5 * Math.pow((zoomLevel + zoomSize) / 10, 3))],
   });
 };
 
