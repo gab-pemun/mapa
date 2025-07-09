@@ -50,7 +50,7 @@ const Root = () => (
         element={<App conflict={"germany"} showBLUFOR={true} showREDFOR={false} />}
       />
       <Route
-        path="alemanha/diretoria"
+        path="alemanha/palpatine"
         element={<App conflict={"germany"} showBLUFOR={true} showREDFOR={true} />}
       />
       <Route
