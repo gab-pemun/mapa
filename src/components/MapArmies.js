@@ -51,15 +51,15 @@ const createCustomIcon = (designation, type, hierarchy, nationality, showBLUFOR,
     switch (hierarchy) {
       case "Companhia":
       case "Batalhão":
-        return 1;
+        return -1;
       case "Regimento":
       case "Brigada":
       case "Divisão":
-        return 2;
+        return 0;
       case "Corpo":
-        return 3; // Example: Larger zoom effect for larger units (original value)
+        return 1; // Example: Larger zoom effect for larger units (original value)
       default:
-        return 0; // Default zoom factor if hierarchy is not specified
+        return -1; // Default zoom factor if hierarchy is not specified
     }
   };
 

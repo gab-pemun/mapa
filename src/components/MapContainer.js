@@ -114,6 +114,7 @@ const MapContainerComponent = ({
         showBLUFOR={showBLUFOR}
         showREDFOR={showREDFOR}
         getCoordinatesFromId={(id) => getCoordinatesFromId(id, boundaryCoordinates[0], boundaryCoordinates[1])}
+        zoomLevel={zoomLevel}
       />
 
       <MapArmies

@@ -35,7 +35,7 @@ const getMarkerIconPath = (faction, icon, fullShow, blueNotRed) => {
   return `${process.env.PUBLIC_URL}/icons/${mappedColor}/${mappedIcon}-${mappedColor}.svg`;
 };
 
-const MapMarkers = ({ markers, showMarkers, showBLUFOR, showREDFOR, getCoordinatesFromId }) => {
+const MapMarkers = ({ markers, showMarkers, showBLUFOR, showREDFOR, getCoordinatesFromId, zoomLevel }) => {
   return (
     markers.length > 0 &&
     markers
@@ -71,9 +71,9 @@ const MapMarkers = ({ markers, showMarkers, showBLUFOR, showREDFOR, getCoordinat
           position={getCoordinatesFromId(item.Coordenadas)}
           icon={L.icon({
             iconUrl: getMarkerIconPath(item.Nacionalidade, item.Icone, (showREDFOR && showBLUFOR), (showREDFOR && !showBLUFOR)),
-            iconSize: [24, 24],
-            iconAnchor: [12, 12],
-            popupAnchor: [0, -24],
+            iconSize: [Math.min(24, 24 * Math.pow((zoomLevel + 1) / 10, 3)), Math.min(24, 24 * Math.pow((zoomLevel + 1) / 10, 3))],
+            iconAnchor: [Math.min(12, 12 * Math.pow((zoomLevel + 1) / 10, 3)), Math.min(12, 12 * Math.pow((zoomLevel + 1) / 10, 3))],
+            popupAnchor: [0, - Math.min(24, 24 * Math.pow((zoomLevel + 1) / 10, 3))],
           })}
         >
           <Tooltip>
