@@ -10,14 +10,16 @@ function getNATOSymbolPath(nationality, unitType, showBLUFOR, showREDFOR) {
   let type;
   let unit;
 
-  if (isBLUFOR(nationality) || (!showBLUFOR && showREDFOR)) {
+  if ((isBLUFOR(nationality) && !((!showBLUFOR && showREDFOR))) || (isREDFOR(nationality) && (!showBLUFOR && showREDFOR))) {
     type = 'Allied ';
-  }
-  else {
+  } else {
     type = 'Enemy ';
   }
 
   switch (unitType) {
+    case 'Forças Especiais':
+      unit = 'Special Forces';
+      break;
     case 'Infantaria':
       unit = 'Infantry';
       break;
@@ -192,31 +194,44 @@ const MapArmies = ({ armies, showArmies, showBLUFOR, showREDFOR, getCoordinatesF
         }
         return false;
       })
-      .map((item, index) => (
-        <Marker
-          key={index}
-          position={getCoordinatesFromId(item.Localização)}
-          icon={createCustomIcon(item.Designação, item.Tipo, item.Hierarquia, item.Nacionalidade, showBLUFOR, showREDFOR, zoomLevel)}
-        >
-        <Tooltip>
-          {/* Dynamically generate tooltip content */}
-          {item.Efetivo > 0 && <span>Soldados: {item.Efetivo} <br /></span>}
+      .map((item, index) => {
+        const shouldShowDetailedData = 
+          (showREDFOR && isREDFOR(item.Nacionalidade)) ||
+          (showBLUFOR && isBLUFOR(item.Nacionalidade)) ||
+          (showREDFOR && showBLUFOR); // Always show if detected
 
-          {item.QtdT1 > 0 && <span>{item.Tanques1}: {item.QtdT1} <br /></span>}
-          {item.QtdT2 > 0 && <span>{item.Tanques2}: {item.QtdT2} <br /></span>}
-          
-          {item.QtdB1 > 0 && <span>{item.Blindado1}: {item.QtdB1} <br /></span>}
-          {item.QtdB2 > 0 && <span>{item.Blindado2}: {item.QtdB2} <br /></span>}
-          
-          {item.QtdAT1 > 0 && <span>{item.AntiTanque1}: {item.QtdAT1} <br /></span>}
-          {item.QtdAT2 > 0 && <span>{item.AntiTanque2}: {item.QtdAT2} <br /></span>}
+        return (
+          <Marker
+            key={index}
+            position={getCoordinatesFromId(item.Localização)}
+            icon={createCustomIcon(item.Designação, item.Tipo, item.Hierarquia, item.Nacionalidade, showBLUFOR, showREDFOR, zoomLevel)}
+          >
+            <Tooltip>
+              {/* Always display Nome */}
+              {item.Nome && <span>{item.Nome} <br /></span>}
 
-          {item.QtdAA > 0 && <span>{item.AntiAéreo}: {item.QtdAA} <br /></span>}
-          {item.QtdH > 0 && <span>{item.AntiAéreo}: {item.QtdH} <br /></span>}
-        </Tooltip>
-        
-        </Marker>
-      ))
+              {/* Conditionally display other data */}
+              {shouldShowDetailedData && (
+                <>
+                  {item.Efetivo > 0 && <span>Soldados: {item.Efetivo} <br /></span>}
+
+                  {item.QtdT1 > 0 && <span>{item.Tanques1}: {item.QtdT1} <br /></span>}
+                  {item.QtdT2 > 0 && <span>{item.Tanques2}: {item.QtdT2} <br /></span>}
+                  
+                  {item.QtdB1 > 0 && <span>{item.Blindado1}: {item.QtdB1} <br /></span>}
+                  {item.QtdB2 > 0 && <span>{item.Blindado2}: {item.QtdB2} <br /></span>}
+                  
+                  {item.QtdAT1 > 0 && <span>{item.AntiTanque1}: {item.QtdAT1} <br /></span>}
+                  {item.QtdAT2 > 0 && <span>{item.AntiTanque2}: {item.QtdAT2} <br /></span>}
+
+                  {item.QtdAA > 0 && <span>{item.AntiAéreo}: {item.QtdAA} <br /></span>}
+                  {item.QtdH > 0 && <span>{item.AntiAéreo}: {item.QtdH} <br /></span>}
+                </>
+              )}
+            </Tooltip>
+          </Marker>
+        );
+      })
   );
 };
 
